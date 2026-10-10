@@ -29,8 +29,8 @@
   --shadow: 0 6px 20px rgba(80, 58, 30, .14);
   --shadow-lg: 0 14px 40px rgba(80, 58, 30, .22);
 
-  --font-cjk: "Mantou Sans", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-  --font-body: "Noto Sans TC", "PingFang TC", -apple-system, "Microsoft JhengHei", sans-serif;
+  --font-cjk: "Mantou Sans", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;      /* 大標題：饅頭黑體 */
+  --font-body: "GenYo Gothic TC", "Noto Sans TC", "PingFang TC", -apple-system, "Microsoft JhengHei", sans-serif; /* 次標題以下：源樣黑體 */
   --font-en: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
 
   color-scheme: light;
@@ -337,3 +337,15 @@ body.role-screen { background: #17120D; }
 /* 問題附註（例句）— 深底上用淺色 */
 .q-display .q-note { font-family: var(--font-body); font-size: clamp(16px,1.5vw,22px); color: #D8C9A6; margin-top: 16px; line-height: 1.55; max-width: 1000px; }
 .qcard-note { font-family: var(--font-body); font-size: 14px; color: #E2D3B4; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.14); line-height: 1.55; }
+
+/* ══════════ 源樣黑體 Bold：次標題以下／內文（大標題仍為饅頭黑體）══════════ */
+body { font-weight: 500; }
+.wcard .txt { font-weight: 700; }
+.modtxt, .q-note, .qcard-note { font-weight: 500; }
+/* 玩家畫面題目一律改黑體（源樣黑 Bold，非饅頭黑） */
+.qtext { font-family: var(--font-body); font-weight: 700; font-style: normal; text-shadow: none; }
+.qtext-en { font-family: var(--font-body); font-weight: 500; font-style: normal; }
+/* 主持端「目前題目」預覽改黑體 */
+.now-zh { font-family: var(--font-body); font-weight: 700; font-style: normal; }
+/* 玩家畫面進入問題頁時隱藏頂部海報 */
+.hero-poster[hidden] { display: none !important; }

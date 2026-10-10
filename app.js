@@ -75,6 +75,8 @@
     const slide = curSlide();
     if (idx !== lastIdxJoin) { sentThisQuestion = false; lastIdxJoin = idx; }
 
+    const poster = document.querySelector(".hero-poster"); if (poster) poster.hidden = isQuestion(slide);  // 問題頁去掉頂部海報
+
     if (!isQuestion(slide)) { body.innerHTML = lookUpHtml(); return; }
     if (config.accepting === false) {
       body.innerHTML = questionHtml(qNumber(idx), slide) +
@@ -172,7 +174,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=15" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=16" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "qr") {
       stage.innerHTML = `<div class="idle-stage big-qr">
         <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>
@@ -199,9 +201,9 @@
   function agentsHtml() {
     const tiles = AGENTS.map((a, i) => {
       const logo = a.img
-        ? `<img class="agent-logo app-icon" src="assets/logos/${a.img}?v=15" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
+        ? `<img class="agent-logo app-icon" src="assets/logos/${a.img}?v=16" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
         : a.logo
-        ? `<img class="agent-logo" src="assets/logos/${a.logo}.svg?v=15" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
+        ? `<img class="agent-logo" src="assets/logos/${a.logo}.svg?v=16" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
         : `<div class="agent-mono">${esc(monogram(a.n))}</div>`;
       return `<div class="agent-tile${a.star ? " star" : ""}">
         ${a.star ? `<div class="agent-star">本場主角</div>` : ""}
