@@ -25,20 +25,20 @@
   const curSlide = () => slidesOf()[activeIdx()] || null;
   const isQuestion = (s) => s && s.type === "question";
 
-  // 時下常見 AI 代理人（logo：simple-icons CDN 單色墨黑；無者退回字母徽章）
+  // 時下常見 AI 代理人（logo：本機 assets/logos 單色 SVG；無者退回字母徽章）
   const AGENTS = [
-    { n: "Claude Code", s: "claude", t: "Anthropic", star: true },
-    { n: "ChatGPT", s: "openai", t: "OpenAI" },
-    { n: "Gemini", s: "googlegemini", t: "Google" },
-    { n: "GitHub Copilot", s: "githubcopilot", t: "GitHub" },
-    { n: "Cursor", s: "cursor", t: "Anysphere" },
-    { n: "Devin", s: null, t: "Cognition" },
-    { n: "Perplexity", s: "perplexity", t: "Comet" },
-    { n: "Manus", s: null, t: "Manus AI" },
-    { n: "Replit Agent", s: "replit", t: "Replit" },
-    { n: "v0", s: "vercel", t: "Vercel" },
-    { n: "Windsurf", s: "windsurf", t: "Codeium" },
-    { n: "Copilot", s: "microsoftcopilot", t: "Microsoft" },
+    { n: "Claude Code", logo: "claude", t: "Anthropic", star: true },
+    { n: "ChatGPT", logo: "openai", t: "OpenAI" },
+    { n: "Gemini", logo: "googlegemini", t: "Google" },
+    { n: "GitHub Copilot", logo: "githubcopilot", t: "GitHub" },
+    { n: "Cursor", logo: "cursor", t: "Anysphere" },
+    { n: "Devin", t: "Cognition" },
+    { n: "Perplexity", logo: "perplexity", t: "Comet" },
+    { n: "Manus", t: "Manus AI" },
+    { n: "Replit Agent", logo: "replit", t: "Replit" },
+    { n: "v0", logo: "vercel", t: "Vercel" },
+    { n: "Windsurf", logo: "windsurf", t: "Codeium" },
+    { n: "Copilot", t: "Microsoft" },
   ];
 
   function joinUrl() {
@@ -183,7 +183,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=8" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=9" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "video") {
       stage.innerHTML = `<div class="slide-media">
         ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}
@@ -202,8 +202,8 @@
 
   function agentsHtml() {
     const tiles = AGENTS.map((a, i) => {
-      const logo = a.s
-        ? `<img class="agent-logo" src="https://cdn.simpleicons.org/${a.s}/2B2520" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
+      const logo = a.logo
+        ? `<img class="agent-logo" src="assets/logos/${a.logo}.svg?v=9" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
         : `<div class="agent-mono">${esc(monogram(a.n))}</div>`;
       return `<div class="agent-tile${a.star ? " star" : ""}">
         ${a.star ? `<div class="agent-star">本場主角</div>` : ""}
