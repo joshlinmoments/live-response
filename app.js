@@ -27,8 +27,8 @@
 
   // AI 代理人牆（img = 本機彩色 App 圖示；logo = 單色 SVG；皆無 = 字母徽章）
   const AGENTS = [
-    { n: "Claude Code", img: "claude-code-app.png", t: "Anthropic", star: true },
-    { n: "Claude", img: "claude-app.png", t: "Anthropic" },
+    { n: "Claude Code", img: "agent-claudecode.png", t: "Anthropic", star: true },
+    { n: "Codex", img: "agent-codex.png", t: "OpenAI" },
   ];
 
   function joinUrl() {
@@ -101,7 +101,7 @@
   }
   function questionHtml(n, q) {
     return `<div class="qcard"><span class="qbadge">Q${n}</span>
-      <h2 class="qtext">${esc(q.zh)}</h2>${q.en ? `<div class="qtext-en">${esc(q.en)}</div>` : ""}</div>`;
+      <h2 class="qtext">${esc(q.zh)}</h2>${q.en ? `<div class="qtext-en">${esc(q.en)}</div>` : ""}${q.note ? `<div class="qcard-note">${esc(q.note)}</div>` : ""}</div>`;
   }
   function answerFormHtml() {
     return `<div class="answer-area">
@@ -172,7 +172,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=14" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=15" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "qr") {
       stage.innerHTML = `<div class="idle-stage big-qr">
         <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>
@@ -192,16 +192,16 @@
     } else { // question
       stage.innerHTML = `<div class="q-display">
         <div class="q-num">${qNumber(activeIdx())}<small>QUESTION</small></div>
-        <div class="q-main"><h1 class="q-zh">${esc(slide.zh)}</h1>${slide.en ? `<div class="q-en">${esc(slide.en)}</div>` : ""}</div></div>`;
+        <div class="q-main"><h1 class="q-zh">${esc(slide.zh)}</h1>${slide.en ? `<div class="q-en">${esc(slide.en)}</div>` : ""}${slide.note ? `<div class="q-note">${esc(slide.note)}</div>` : ""}</div></div>`;
     }
   }
 
   function agentsHtml() {
     const tiles = AGENTS.map((a, i) => {
       const logo = a.img
-        ? `<img class="agent-logo app-icon" src="assets/logos/${a.img}?v=13" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
+        ? `<img class="agent-logo app-icon" src="assets/logos/${a.img}?v=15" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
         : a.logo
-        ? `<img class="agent-logo" src="assets/logos/${a.logo}.svg?v=13" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
+        ? `<img class="agent-logo" src="assets/logos/${a.logo}.svg?v=15" alt="${esc(a.n)}" data-mono="${esc(monogram(a.n))}"/>`
         : `<div class="agent-mono">${esc(monogram(a.n))}</div>`;
       return `<div class="agent-tile${a.star ? " star" : ""}">
         ${a.star ? `<div class="agent-star">本場主角</div>` : ""}
