@@ -76,6 +76,7 @@
     if (idx !== lastIdxJoin) { sentThisQuestion = false; nameDone = false; lastIdxJoin = idx; }
 
     const isName = slide && slide.type === "name";
+    $("#view-join").classList.toggle("name-mode", !!isName);  // 填名字頁上下置中
     const poster = document.querySelector(".hero-poster"); if (poster) poster.hidden = isQuestion(slide) || isName;  // 問題頁/填名字頁去掉頂部海報
 
     if (isName) {
@@ -214,7 +215,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=18" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=19" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "qr") {
       stage.innerHTML = `<div class="idle-stage big-qr">
         <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>

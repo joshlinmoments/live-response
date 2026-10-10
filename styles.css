@@ -358,3 +358,6 @@ body { font-weight: 500; }
 .name-input { width:100%; font-family:var(--font-body); font-weight:700; font-size:20px; text-align:center; background:#fff; border:2px solid var(--line); border-radius:var(--r-s); padding:14px; outline:none; color:var(--ink); }
 .name-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(168,128,63,.25); }
 .namecard .hint { color:#E2D3B4; }
+
+/* 填名字頁：整個欄位上下置中（手機） */
+#view-join.name-mode { display: flex; flex-direction: column; justify-content: center; min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); }
