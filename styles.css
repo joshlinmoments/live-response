@@ -325,3 +325,11 @@ body.role-screen { background: #17120D; }
 #view-screen .screen-stage[data-type="cover"] { padding: 0; }
 .screen-stage[data-type="cover"] .slide-cover { min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); gap: 0; }
 .screen-stage[data-type="cover"] .cover-img { max-width: 100%; max-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); width: auto; height: auto; border-radius: 0; box-shadow: none; }
+
+/* AI Agents 牆：少量彩色 App 圖示時置中放大 */
+.agents-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch; gap: 40px; max-width: 820px; }
+.agents-grid .agent-tile { width: 300px; max-width: 42vw; padding: 34px 24px 24px; }
+.agent-logo.app-icon { width: 150px; height: 150px; max-width: 100%; border-radius: 30px; }
+.agents-grid .agent-logo-wrap { height: auto; }
+.agents-grid .agent-name { font-size: 24px; margin-top: 6px; }
+.agents-grid .agent-maker { font-size: 14px; }
