@@ -319,3 +319,9 @@ body.role-screen { background: #17120D; }
 #view-screen .screen-stage { padding-top: 40px; }
 #view-screen .join-chip { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 16px); right: 22px; z-index: 10; box-shadow: 0 10px 28px rgba(0,0,0,.45); }
 #view-screen .wall-empty div { color: #D8C9A6 !important; }
+
+/* 投影 stage 撐滿；封面放到最大（滿版、無圓角陰影） */
+#view-screen .screen-stage { flex: 1 1 auto; }
+#view-screen .screen-stage[data-type="cover"] { padding: 0; }
+.screen-stage[data-type="cover"] .slide-cover { min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); gap: 0; }
+.screen-stage[data-type="cover"] .cover-img { max-width: 100%; max-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); width: auto; height: auto; border-radius: 0; box-shadow: none; }

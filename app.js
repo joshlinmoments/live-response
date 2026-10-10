@@ -178,14 +178,16 @@
   function buildScreenStage(slide) {
     const stage = $("#s-stage"); const wall = $("#s-wall");
     wall.innerHTML = "";
+    stage.dataset.type = slide ? slide.type : "";
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=10" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=11" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "video") {
       stage.innerHTML = `<div class="slide-media">
         ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}
         <video class="media-video" src="${esc(slide.src)}" controls playsinline preload="metadata"></video></div>`;
+      wireVideoClip(stage.querySelector("video"), +slide.start || 0, +slide.end || 0);
     } else if (slide.type === "image") {
       stage.innerHTML = `<div class="slide-media"><img class="media-img" src="${esc(slide.src)}" alt="${esc(slide.label || "")}"/></div>`;
     } else if (slide.type === "agents") {
@@ -213,6 +215,13 @@
       <div class="agents-grid">${tiles}</div></div>`;
   }
   function monogram(name) { const parts = name.replace(/[^A-Za-z0-9 ]/g, "").trim().split(/\s+/); return ((parts[0]||"?")[0] + (parts[1] ? parts[1][0] : (parts[0][1]||""))).toUpperCase(); }
+  // 影片只播指定區段 [start, end]（秒）
+  function wireVideoClip(v, start, end) {
+    if (!v) return;
+    v.addEventListener("loadedmetadata", () => { try { if (start > 0) v.currentTime = start; } catch (e) {} }, { once: true });
+    if (end > 0) v.addEventListener("timeupdate", () => { if (v.currentTime >= end) v.pause(); });
+    v.addEventListener("play", () => { try { if ((end > 0 && v.currentTime >= end) || (start > 0 && v.currentTime < start - 0.3)) v.currentTime = start; } catch (e) {} });
+  }
   function wireAgentFallbacks(root) {
     root.querySelectorAll(".agent-logo").forEach((img) => {
       img.addEventListener("error", () => {
@@ -368,8 +377,13 @@
     $("#q-edit-list").addEventListener("click", (e) => { const d = e.target.getAttribute("data-del"); if (d !== null && d !== undefined) { const cur = readQEdits(); cur.splice(+d, 1); drawQEdits(cur); } });
     $("#set-save").addEventListener("click", async () => {
       const qs = readQEdits();
-      const head = slidesOf().filter((s) => s.type !== "question");   // 內容頁維持在前
-      const slides = head.concat(qs);
+      // 把編輯後的問題「就地」放回原本的問題位置（保留與內容頁的交錯順序）；多的接在最後、少的從尾端移除
+      const slides = []; let ei = 0;
+      for (const s of slidesOf()) {
+        if (s.type === "question") { if (ei < qs.length) slides.push(qs[ei++]); }
+        else slides.push(s);
+      }
+      while (ei < qs.length) slides.push(qs[ei++]);
       const patch = { title: $("#set-title").value.trim() || "即時回應", titleEn: $("#set-title-en").value.trim(), slides };
       if (activeIdx() >= slides.length) patch.activeIndex = slides.length - 1;
       await patchConfig(patch);
