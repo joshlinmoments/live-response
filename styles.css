@@ -349,3 +349,12 @@ body { font-weight: 500; }
 .now-zh { font-family: var(--font-body); font-weight: 700; font-style: normal; }
 /* 玩家畫面進入問題頁時隱藏頂部海報 */
 .hero-poster[hidden] { display: none !important; }
+
+/* ══════════ 填名字頁（玩家端）══════════ */
+.namecard { background: var(--ink); border-radius: var(--r); box-shadow: var(--shadow-lg); padding: 30px 22px; text-align: center; border-top: 5px solid var(--gold); }
+.name-badge { display:inline-block; font-family:var(--font-en); font-weight:700; font-size:12px; letter-spacing:.16em; color:var(--ink); background:var(--gold); padding:3px 13px; border-radius:999px; margin-bottom:14px; }
+.name-title { font-family:var(--font-cjk); font-weight:900; font-style:italic; font-size:clamp(25px,7.5vw,34px); color:var(--cream); margin:0 0 4px; text-shadow:1.5px 2.6px 0 #000; }
+.name-sub { font-family:var(--font-cjk); font-weight:900; font-style:italic; color:#E7D8BC; font-size:14px; margin-bottom:20px; letter-spacing:.02em; }
+.name-input { width:100%; font-family:var(--font-body); font-weight:700; font-size:20px; text-align:center; background:#fff; border:2px solid var(--line); border-radius:var(--r-s); padding:14px; outline:none; color:var(--ink); }
+.name-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(168,128,63,.25); }
+.namecard .hint { color:#E2D3B4; }

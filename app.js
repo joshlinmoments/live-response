@@ -64,7 +64,7 @@
   // ════════════════════════════════════════════════════════
   //  ①  學員手機
   // ════════════════════════════════════════════════════════
-  let sentThisQuestion = false, lastIdxJoin = -99;
+  let sentThisQuestion = false, nameDone = false, lastIdxJoin = -99;
 
   function renderJoin() {
     $("#view-join").hidden = false; $("#view-host").hidden = true; $("#view-screen").hidden = true;
@@ -73,10 +73,16 @@
 
     const idx = activeIdx();
     const slide = curSlide();
-    if (idx !== lastIdxJoin) { sentThisQuestion = false; lastIdxJoin = idx; }
+    if (idx !== lastIdxJoin) { sentThisQuestion = false; nameDone = false; lastIdxJoin = idx; }
 
-    const poster = document.querySelector(".hero-poster"); if (poster) poster.hidden = isQuestion(slide);  // 問題頁去掉頂部海報
+    const isName = slide && slide.type === "name";
+    const poster = document.querySelector(".hero-poster"); if (poster) poster.hidden = isQuestion(slide) || isName;  // 問題頁/填名字頁去掉頂部海報
 
+    if (isName) {
+      if (nameDone) { body.innerHTML = welcomeHtml(); $("#rename").onclick = () => { nameDone = false; renderJoin(); }; }
+      else { body.innerHTML = nameHtml(); bindName(); }
+      return;
+    }
     if (!isQuestion(slide)) { body.innerHTML = lookUpHtml(); return; }
     if (config.accepting === false) {
       body.innerHTML = questionHtml(qNumber(idx), slide) +
@@ -101,6 +107,38 @@
       <div class="hint" style="margin-top:14px">講師正在分享內容，輪到你作答時這裡會自動跳出題目。</div>
     </div>`;
   }
+  function nameHtml() {
+    const saved = ssGet("nick") || "";
+    return `<div class="namecard">
+      <div class="name-badge">START</div>
+      <h2 class="name-title">先寫下你的名字吧！</h2>
+      <div class="name-sub en">Enter your name to begin</div>
+      <input id="myname" class="name-input" maxlength="16" placeholder="你的名字／暱稱" value="${esc(saved)}" />
+      <button class="btn block jade" id="name-save" style="margin-top:14px">進入 · Enter</button>
+      <div class="hint">之後每次作答都會自動帶上這個名字。</div>
+    </div>`;
+  }
+  function bindName() {
+    const inp = $("#myname"), btn = $("#name-save");
+    inp.focus();
+    const save = () => {
+      const v = inp.value.trim().slice(0, 16);
+      if (!v) { inp.focus(); inp.style.borderColor = "var(--vermilion, #C0392B)"; return; }
+      ssSet("nick", v); nameDone = true; renderJoin();
+    };
+    btn.addEventListener("click", save);
+    inp.addEventListener("keydown", (e) => { if (e.key === "Enter") save(); });
+  }
+  function welcomeHtml() {
+    const name = esc(ssGet("nick") || "夥伴");
+    return `<div class="sent-box">
+      <div class="sent-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="sent-title">歡迎，${name}！</div>
+      <div class="hint" style="font-size:15px">名字記好了，接下來請看大螢幕一起作答。<br><span class="en">You're all set — eyes on the big screen.</span></div>
+      <button class="btn ghost sm" id="rename" style="margin-top:18px">改名字</button>
+    </div>`;
+  }
+
   function questionHtml(n, q) {
     return `<div class="qcard"><span class="qbadge">Q${n}</span>
       <h2 class="qtext">${esc(q.zh)}</h2>${q.en ? `<div class="qtext-en">${esc(q.en)}</div>` : ""}${q.note ? `<div class="qcard-note">${esc(q.note)}</div>` : ""}</div>`;
@@ -174,12 +212,18 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=16" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=17" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "qr") {
       stage.innerHTML = `<div class="idle-stage big-qr">
         <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>
         <div class="idle-en en">${esc(slide.en || "Scan to join")}</div>
         <div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>${esc(slide.label || "掃碼加入作答")}</b><span class="en">Scan the QR code to join</span></div></div></div>`;
+      makeQR($("#s-bigqr"), 340);
+    } else if (slide.type === "name") {
+      stage.innerHTML = `<div class="idle-stage big-qr">
+        <div class="big title-fx outlined">${esc(slide.zh || "先寫下你的名字")}</div>
+        <div class="idle-en en">${esc(slide.en || "Scan & enter your name")}</div>
+        <div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入 · 輸入名字</b><span class="en">Scan the QR code to begin</span></div></div></div>`;
       makeQR($("#s-bigqr"), 340);
     } else if (slide.type === "video") {
       stage.innerHTML = `<div class="slide-media">
@@ -259,6 +303,7 @@
     if (!s) return "—";
     if (s.type === "cover") return "封面 · 首頁";
     if (s.type === "qr") return "QR 碼 · 邀請掃碼加入";
+    if (s.type === "name") return "填名字 · 請大家輸入名字";
     if (s.type === "video") return "影片 · " + (s.label || "Video");
     if (s.type === "image") return "圖片 · " + (s.label || "Image");
     if (s.type === "agents") return "AI 代理人牆 · AI Agents";
@@ -278,7 +323,7 @@
     $("#h-qpos").innerHTML = `第 <b>${idx + 1}</b>/${slides.length} 頁`;
 
     const now = $("#h-now");
-    const kindTag = slide ? ({cover:"封面",qr:"QR 碼",video:"影片",image:"圖片",agents:"AI 代理人牆",question:"問題"}[slide.type] || slide.type) : "—";
+    const kindTag = slide ? ({cover:"封面",qr:"QR 碼",name:"填名字",video:"影片",image:"圖片",agents:"AI 代理人牆",question:"問題"}[slide.type] || slide.type) : "—";
     if (isQuestion(slide)) {
       now.innerHTML = `<div class="now-q"><span class="now-badge">Q${qNumber(idx)}</span><div><div class="now-kind">問題頁</div><div class="now-zh">${esc(slide.zh)}</div>${slide.en ? `<div class="now-en en">${esc(slide.en)}</div>` : ""}</div></div>`;
     } else {
