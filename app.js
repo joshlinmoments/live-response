@@ -101,7 +101,7 @@
       <button class="btn jade" id="again" style="margin-top:20px">再補一則 · Add another</button></div>`;
   }
   function waitingHtml(zh, en) {
-    return `<div class="waiting"><div style="font-family:var(--font-cjk);font-weight:900;font-size:26px;color:var(--jade-d)">${esc(zh)}</div>
+    return `<div class="waiting"><div style="font-family:var(--font-cjk);font-weight:900;font-style:italic;font-size:26px;color:var(--gold-d)">${esc(zh)}</div>
       <div class="en" style="margin-top:6px">${esc(en)}</div><div class="dots"><i></i><i></i><i></i></div></div>`;
   }
   function bindForm(idx) {
@@ -111,7 +111,7 @@
     ans.focus();
     send.addEventListener("click", async () => {
       const text = ans.value.trim();
-      if (!text) { ans.focus(); ans.style.borderColor = "var(--vermilion)"; return; }
+      if (!text) { ans.focus(); ans.style.borderColor = "var(--ink)"; return; }
       const name = $("#nick").value.trim().slice(0, 16);
       ssSet("nick", name);
       send.disabled = true; send.textContent = "送出中…";
@@ -165,7 +165,7 @@
     const wall = $("#s-wall");
     const idx = activeIdx();
     if (config.reveal === false) {
-      wall.innerHTML = `<div class="wall-empty"><div style="font-family:var(--font-cjk);font-weight:900;font-size:30px;color:var(--jade-d)">留言牆暫時收起</div><div class="en" style="margin-top:8px;font-size:20px">Wall is hidden</div></div>`;
+      wall.innerHTML = `<div class="wall-empty"><div style="font-family:var(--font-cjk);font-weight:900;font-style:italic;font-size:30px;color:var(--gold-d)">留言牆暫時收起</div><div class="en" style="margin-top:8px;font-size:20px">Wall is hidden</div></div>`;
       screenRendered.clear(); return;
     }
     const items = Object.entries(responsesCache).filter(([, r]) => r.q === idx).sort((a, b) => (a[1].ts || 0) - (b[1].ts || 0));
