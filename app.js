@@ -157,8 +157,6 @@
     $("#view-screen").hidden = false; $("#view-host").hidden = true; $("#view-join").hidden = true;
     if (!config) { $("#s-stage").innerHTML = `<div class="idle-stage"><div class="big title-fx outlined">連線中…</div></div>`; return; }
 
-    $("#s-brand-zh").textContent = config.title || "即時回應";
-    $("#s-brand-en").textContent = config.titleEn || "";
     if (!qrChipDone) { makeQR($("#s-qrchip"), 112); qrChipDone = true; }
 
     const idx = activeIdx();
@@ -183,7 +181,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=9" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=10" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "video") {
       stage.innerHTML = `<div class="slide-media">
         ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}

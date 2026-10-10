@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=9" />
+<link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
 
@@ -17,27 +17,16 @@
 
   <!-- ══════════ ① 手機介面（學員） ══════════ -->
   <main id="view-join" hidden>
-    <img class="hero-poster" src="assets/img/hero-poster.jpg?v=9" alt="讓 AI 幫你騰出雙手 · Let AI Lend a Hand（2026/10/11 林瑋揚 學習分享）" />
+    <img class="hero-poster" src="assets/img/hero-poster.jpg?v=10" alt="讓 AI 幫你騰出雙手 · Let AI Lend a Hand（2026/10/11 林瑋揚 學習分享）" />
     <div id="join-body"></div>
   </main>
 
   <!-- ══════════ ② 投影介面（大畫面） ══════════ -->
   <div id="view-screen" hidden>
-    <header class="screen-top">
-      <div class="host-brand">
-        <svg width="54" height="54" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-          <rect x="30" y="26" width="60" height="44" rx="14" fill="#FBF5E8" stroke="#A8803F" stroke-width="3"/>
-          <circle cx="60" cy="46" r="12" fill="#A8803F" stroke="#87682F" stroke-width="3"/><circle cx="60" cy="46" r="4.5" fill="#FBF5E8"/>
-          <line x1="60" y1="26" x2="60" y2="16" stroke="#A8803F" stroke-width="3"/><circle cx="60" cy="14" r="4" fill="#2B2520"/>
-          <rect x="38" y="74" width="44" height="26" rx="9" fill="#FBF5E8" stroke="#A8803F" stroke-width="3"/>
-        </svg>
-        <div class="t"><span id="s-brand-zh" class="title-fx">讓 AI 幫你騰出雙手</span><small id="s-brand-en">Let AI Lend a Hand</small></div>
-      </div>
-      <div class="join-chip" id="s-qrwrap" hidden>
-        <div id="s-qrchip" class="qrchip"></div>
-        <div class="chip-txt"><b>掃碼加入</b><span class="en">Scan to join</span></div>
-      </div>
-    </header>
+    <div class="join-chip" id="s-qrwrap" hidden>
+      <div id="s-qrchip" class="qrchip"></div>
+      <div class="chip-txt"><b>掃碼加入</b><span class="en">Scan to join</span></div>
+    </div>
     <div class="screen-stage" id="s-stage"></div>
     <div class="wall" id="s-wall"></div>
     <div class="qr-overlay" id="s-qr-ov" hidden>
@@ -126,7 +115,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="firebase-config.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="firebase-config.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>
