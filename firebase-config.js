@@ -16,12 +16,12 @@ const FB = {
 firebase.initializeApp(FB);
 const DB = firebase.database();
 
-// 場次代碼：預設 main，可用 #host-xxx / ?room=xxx 切換不同場次互不干擾。
+// 場次代碼：預設 main。可用 #host-xxx / #screen-xxx / ?room=xxx 切換不同場次互不干擾。
 function getRoom() {
   const url = new URLSearchParams(location.search).get("room");
   if (url) return url.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 32) || "main";
   const h = (location.hash || "").replace(/^#/, "");
-  const m = h.match(/^host-([a-zA-Z0-9_-]{1,32})$/);
+  const m = h.match(/^(?:host|screen)-([a-zA-Z0-9_-]{1,32})$/);
   return m ? m[1] : "main";
 }
 const ROOM = getRoom();
