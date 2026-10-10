@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=7" />
+<link rel="stylesheet" href="styles.css?v=8" />
 </head>
 <body>
 
@@ -17,7 +17,7 @@
 
   <!-- ══════════ ① 手機介面（學員） ══════════ -->
   <main id="view-join" hidden>
-    <img class="hero-poster" src="assets/img/hero-poster.jpg?v=7" alt="讓 AI 幫你騰出雙手 · Let AI Lend a Hand（2026/10/11 林瑋揚 學習分享）" />
+    <img class="hero-poster" src="assets/img/hero-poster.jpg?v=8" alt="讓 AI 幫你騰出雙手 · Let AI Lend a Hand（2026/10/11 林瑋揚 學習分享）" />
     <div id="join-body"></div>
   </main>
 
@@ -70,19 +70,23 @@
         <div class="card-label">目前題目 · NOW SHOWING</div>
         <div id="h-now"></div>
 
-        <button class="btn block" id="h-start">▶ 開始第 1 題</button>
-        <div class="step-row" id="h-stepwrap">
-          <button class="btn ghost" id="h-prev">◀ 上一題</button>
-          <button class="btn jade" id="h-next">下一題 ▶</button>
+        <div class="step-row">
+          <button class="btn ghost" id="h-prev">◀ 上一頁</button>
+          <button class="btn jade" id="h-next">下一頁 ▶</button>
         </div>
 
+        <div id="h-qctrls">
+          <div class="toggle-grid">
+            <label class="toggle"><input type="checkbox" id="h-accept" checked><span class="sw"></span>開放作答</label>
+            <label class="toggle"><input type="checkbox" id="h-reveal" checked><span class="sw"></span>投影顯示牆面</label>
+          </div>
+        </div>
         <div class="toggle-grid">
-          <label class="toggle"><input type="checkbox" id="h-accept" checked><span class="sw"></span>開放作答</label>
-          <label class="toggle"><input type="checkbox" id="h-reveal" checked><span class="sw"></span>投影顯示牆面</label>
-          <label class="toggle"><input type="checkbox" id="h-showqr"><span class="sw"></span>投影放大 QR</label>
+          <label class="toggle"><input type="checkbox" id="h-showqr"><span class="sw"></span>投影放大 QR（蓋滿投影）</label>
         </div>
 
         <div class="btn-row">
+          <button class="btn ghost sm" id="h-home">⟲ 回到首頁</button>
           <button class="btn ghost sm" id="h-setup">⚙ 設定題目</button>
           <button class="btn ghost sm" id="h-clear">清除本題回應</button>
           <button class="btn ghost sm" id="h-clear-all">清除全部</button>
@@ -122,7 +126,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="firebase-config.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="firebase-config.js?v=8"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
