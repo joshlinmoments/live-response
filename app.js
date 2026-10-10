@@ -195,8 +195,10 @@
     const changed = (idx !== lastIdxScreen) || (sig !== lastSigScreen);
     if (changed) { lastIdxScreen = idx; lastSigScreen = sig; screenRendered.clear(); buildScreenStage(slide); }
 
-    // 問題頁才顯示角落 QR 與留言牆；其餘頁收起
-    $("#s-qrwrap").hidden = !isQuestion(slide);
+    // 角落 QR：問題頁與內容頁都常駐（方便中途重新加入）；封面與已有大 QR 的頁(qr/填名字)不重複
+    const bigQrSlide = slide && (slide.type === "cover" || slide.type === "qr" || slide.type === "name");
+    $("#s-qrwrap").hidden = !slide || bigQrSlide;
+    // 留言牆只在問題頁顯示
     $("#s-wall").hidden = !isQuestion(slide);
     if (isQuestion(slide)) renderScreenWall();
 
@@ -212,7 +214,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=17" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=18" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "qr") {
       stage.innerHTML = `<div class="idle-stage big-qr">
         <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>
