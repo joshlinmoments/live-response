@@ -182,7 +182,13 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=11" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=12" alt="讓 AI 幫你騰出雙手"/></div>`;
+    } else if (slide.type === "qr") {
+      stage.innerHTML = `<div class="idle-stage big-qr">
+        <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>
+        <div class="idle-en en">${esc(slide.en || "Scan to join")}</div>
+        <div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>${esc(slide.label || "掃碼加入作答")}</b><span class="en">Scan the QR code to join</span></div></div></div>`;
+      makeQR($("#s-bigqr"), 340);
     } else if (slide.type === "video") {
       stage.innerHTML = `<div class="slide-media">
         ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}
@@ -258,6 +264,7 @@
   function slideLabel(s) {
     if (!s) return "—";
     if (s.type === "cover") return "封面 · 首頁";
+    if (s.type === "qr") return "QR 碼 · 邀請掃碼加入";
     if (s.type === "video") return "影片 · " + (s.label || "Video");
     if (s.type === "image") return "圖片 · " + (s.label || "Image");
     if (s.type === "agents") return "AI 代理人牆 · AI Agents";
@@ -277,7 +284,7 @@
     $("#h-qpos").innerHTML = `第 <b>${idx + 1}</b>/${slides.length} 頁`;
 
     const now = $("#h-now");
-    const kindTag = slide ? ({cover:"封面",video:"影片",image:"圖片",agents:"AI 代理人牆",question:"問題"}[slide.type] || slide.type) : "—";
+    const kindTag = slide ? ({cover:"封面",qr:"QR 碼",video:"影片",image:"圖片",agents:"AI 代理人牆",question:"問題"}[slide.type] || slide.type) : "—";
     if (isQuestion(slide)) {
       now.innerHTML = `<div class="now-q"><span class="now-badge">Q${qNumber(idx)}</span><div><div class="now-kind">問題頁</div><div class="now-zh">${esc(slide.zh)}</div>${slide.en ? `<div class="now-en en">${esc(slide.en)}</div>` : ""}</div></div>`;
     } else {
