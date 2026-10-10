@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "state": {
+      ".read": true,
+      ".write": true
+    },
+    "live-poll": {
+      ".read": true,
+      ".write": true,
+      "$room": {
+        "responses": {
+          ".indexOn": ["ts"]
+        }
+      }
+    }
+  }
+}

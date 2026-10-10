@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>讓 AI 幫你騰出雙手 · 即時回應</title>
+<meta name="description" content="課堂即時回應系統：掃碼作答，回應即時上牆。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='30' y='28' width='60' height='44' rx='14' fill='%23F3E9D4' stroke='%23B88A48' stroke-width='5'/%3E%3Ccircle cx='60' cy='48' r='12' fill='%235E9B82'/%3E%3Ccircle cx='60' cy='48' r='4.5' fill='%23F3E9D4'/%3E%3Cline x1='60' y1='28' x2='60' y2='16' stroke='%23B88A48' stroke-width='5'/%3E%3Ccircle cx='60' cy='13' r='5' fill='%23C0392B'/%3E%3Crect x='40' y='76' width='40' height='24' rx='8' fill='%23F3E9D4' stroke='%23B88A48' stroke-width='5'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+
+<!-- 祥雲角落裝飾（呼應主視覺） -->
+<div class="clouds" aria-hidden="true">
+  <svg class="c-tl" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 90c-12 0-18-10-10-18 4-12 20-10 22-2 2-14 22-16 28-4 8-10 26-6 24 8 12-2 18 12 6 18"/><path d="M60 64c6-8 20-6 20 4"/><circle cx="48" cy="80" r="3"/></svg>
+  <svg class="c-tr" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 90c-12 0-18-10-10-18 4-12 20-10 22-2 2-14 22-16 28-4 8-10 26-6 24 8 12-2 18 12 6 18"/><path d="M60 64c6-8 20-6 20 4"/><circle cx="48" cy="80" r="3"/></svg>
+  <svg class="c-bl" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 90c-12 0-18-10-10-18 4-12 20-10 22-2 2-14 22-16 28-4 8-10 26-6 24 8 12-2 18 12 6 18"/><path d="M60 64c6-8 20-6 20 4"/><circle cx="48" cy="80" r="3"/></svg>
+  <svg class="c-br" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 90c-12 0-18-10-10-18 4-12 20-10 22-2 2-14 22-16 28-4 8-10 26-6 24 8 12-2 18 12 6 18"/><path d="M60 64c6-8 20-6 20 4"/><circle cx="48" cy="80" r="3"/></svg>
+</div>
+
+<div class="wrap">
+
+  <!-- ══════════ 學員端 ══════════ -->
+  <main id="view-join" hidden>
+    <div class="join-head">
+      <svg class="join-robot floaty" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF5E8"/><stop offset="1" stop-color="#E7D7B8"/></linearGradient></defs>
+        <rect x="30" y="22" width="60" height="46" rx="14" fill="url(#g)" stroke="#B88A48" stroke-width="2.5"/>
+        <circle cx="60" cy="44" r="13" fill="#5E9B82" stroke="#3C7A62" stroke-width="2.5"/>
+        <circle cx="60" cy="44" r="5" fill="#FBF5E8"/>
+        <line x1="60" y1="22" x2="60" y2="12" stroke="#B88A48" stroke-width="2.5"/><circle cx="60" cy="10" r="4" fill="#C0392B"/>
+        <rect x="38" y="72" width="44" height="30" rx="9" fill="url(#g)" stroke="#B88A48" stroke-width="2.5"/>
+        <path d="M30 86c-10 2-16 8-14 16M90 86c10 2 16 8 14 16" stroke="#C0392B" stroke-width="3" stroke-linecap="round"/>
+        <path d="M30 90c-9 3-13 9-11 15" stroke="#5E9B82" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="join-title" id="join-title">讓 AI 幫你騰出雙手</div>
+      <div class="join-title-en" id="join-title-en">Let AI Lend a Hand</div>
+    </div>
+    <div id="join-body"></div>
+  </main>
+
+  <!-- ══════════ 主持端 / 投影端 ══════════ -->
+  <div id="view-host" hidden>
+    <header class="host-top">
+      <div class="host-brand">
+        <svg width="46" height="46" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <rect x="30" y="26" width="60" height="44" rx="14" fill="#FBF5E8" stroke="#B88A48" stroke-width="3"/>
+          <circle cx="60" cy="46" r="12" fill="#5E9B82" stroke="#3C7A62" stroke-width="3"/><circle cx="60" cy="46" r="4.5" fill="#FBF5E8"/>
+          <line x1="60" y1="26" x2="60" y2="16" stroke="#B88A48" stroke-width="3"/><circle cx="60" cy="14" r="4" fill="#C0392B"/>
+          <rect x="38" y="74" width="44" height="26" rx="9" fill="#FBF5E8" stroke="#B88A48" stroke-width="3"/>
+        </svg>
+        <div class="t"><span id="h-brand-zh">讓 AI 幫你騰出雙手</span><small id="h-brand-en">Let AI Lend a Hand</small></div>
+      </div>
+      <div class="ctrls">
+        <span class="pill" id="h-qpos">共 0 題</span>
+        <span class="pill" id="h-count"><b>0</b> 則回應</span>
+        <label class="toggle"><input type="checkbox" id="h-accept" checked><span class="sw"></span>開放作答</label>
+        <label class="toggle"><input type="checkbox" id="h-reveal" checked><span class="sw"></span>顯示牆面</label>
+        <button class="btn ghost sm" id="h-prev">◀ 上一題</button>
+        <button class="btn jade sm" id="h-next">下一題 ▶</button>
+        <button class="btn sm" id="h-start" hidden>▶ 開始第 1 題</button>
+        <button class="btn ghost sm" id="h-qr">▣ QR</button>
+        <button class="btn ghost sm" id="h-setup">⚙ 設定題目</button>
+        <button class="btn ghost sm" id="h-clear">清除本題</button>
+        <button class="btn ghost sm" id="h-clear-all">清除全部</button>
+      </div>
+    </header>
+
+    <div class="host-stage">
+      <div id="h-qstage"></div>
+      <div class="wall" id="h-wall"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- QR 疊層 -->
+<div class="qr-overlay" id="qr-overlay" hidden>
+  <div class="qr-box">
+    <h3>掃碼加入作答</h3>
+    <div class="sub en">Scan to join</div>
+    <div id="qrcode"></div>
+    <div class="qr-url" id="qr-url"></div>
+    <div class="qr-close"><button class="btn jade" id="qr-close">關閉</button></div>
+  </div>
+</div>
+
+<!-- 設定題目疊層 -->
+<div class="setup-overlay" id="setup-overlay" hidden>
+  <div class="setup-box">
+    <h3>設定題目</h3>
+    <div class="desc">題目會即時同步到每位學員的手機。中文必填、英文可留白。上課中也能隨時修改。</div>
+    <input id="set-title" class="qz" style="width:100%;font-family:var(--font-cjk);font-weight:700;font-size:18px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:#fff;color:var(--ink)" placeholder="活動標題（中文）" />
+    <input id="set-title-en" style="width:100%;font-family:var(--font-en);font-style:italic;font-size:16px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:18px;background:#fff;color:var(--ink)" placeholder="Title (English, optional)" />
+    <div id="q-edit-list"></div>
+    <div class="setup-actions">
+      <button class="btn ghost" id="q-add">＋ 新增一題</button>
+      <button class="btn jade" id="set-save" style="margin-left:auto">儲存</button>
+      <button class="btn ghost" id="set-cancel">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 函式庫 -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="firebase-config.js?v=1"></script>
+<script src="app.js?v=1"></script>
+</body>
+</html>
