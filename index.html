@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>讓 AI 幫你騰出雙手 · 即時回應</title>
 <meta name="description" content="課堂即時回應系統：掃碼作答，回應即時上牆。" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='30' y='28' width='60' height='44' rx='14' fill='%23F3E9D4' stroke='%23B88A48' stroke-width='5'/%3E%3Ccircle cx='60' cy='48' r='12' fill='%235E9B82'/%3E%3Ccircle cx='60' cy='48' r='4.5' fill='%23F3E9D4'/%3E%3Cline x1='60' y1='28' x2='60' y2='16' stroke='%23B88A48' stroke-width='5'/%3E%3Ccircle cx='60' cy='13' r='5' fill='%23C0392B'/%3E%3Crect x='40' y='76' width='40' height='24' rx='8' fill='%23F3E9D4' stroke='%23B88A48' stroke-width='5'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='30' y='28' width='60' height='44' rx='14' fill='%23F3E9D4' stroke='%23A8803F' stroke-width='5'/%3E%3Ccircle cx='60' cy='48' r='12' fill='%23A8803F'/%3E%3Ccircle cx='60' cy='48' r='4.5' fill='%23F3E9D4'/%3E%3Cline x1='60' y1='28' x2='60' y2='16' stroke='%23A8803F' stroke-width='5'/%3E%3Ccircle cx='60' cy='13' r='5' fill='%232B2520'/%3E%3Crect x='40' y='76' width='40' height='24' rx='8' fill='%23F3E9D4' stroke='%23A8803F' stroke-width='5'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=3" />
+<link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 
@@ -20,13 +20,13 @@
     <div class="join-head">
       <svg class="join-robot floaty" viewBox="0 0 120 120" fill="none" aria-hidden="true">
         <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF5E8"/><stop offset="1" stop-color="#E7D7B8"/></linearGradient></defs>
-        <rect x="30" y="22" width="60" height="46" rx="14" fill="url(#g)" stroke="#B88A48" stroke-width="2.5"/>
-        <circle cx="60" cy="44" r="13" fill="#5E9B82" stroke="#3C7A62" stroke-width="2.5"/>
+        <rect x="30" y="22" width="60" height="46" rx="14" fill="url(#g)" stroke="#A8803F" stroke-width="2.5"/>
+        <circle cx="60" cy="44" r="13" fill="#A8803F" stroke="#87682F" stroke-width="2.5"/>
         <circle cx="60" cy="44" r="5" fill="#FBF5E8"/>
-        <line x1="60" y1="22" x2="60" y2="12" stroke="#B88A48" stroke-width="2.5"/><circle cx="60" cy="10" r="4" fill="#C0392B"/>
-        <rect x="38" y="72" width="44" height="30" rx="9" fill="url(#g)" stroke="#B88A48" stroke-width="2.5"/>
-        <path d="M30 86c-10 2-16 8-14 16M90 86c10 2 16 8 14 16" stroke="#C0392B" stroke-width="3" stroke-linecap="round"/>
-        <path d="M30 90c-9 3-13 9-11 15" stroke="#5E9B82" stroke-width="3" stroke-linecap="round"/>
+        <line x1="60" y1="22" x2="60" y2="12" stroke="#A8803F" stroke-width="2.5"/><circle cx="60" cy="10" r="4" fill="#2B2520"/>
+        <rect x="38" y="72" width="44" height="30" rx="9" fill="url(#g)" stroke="#A8803F" stroke-width="2.5"/>
+        <path d="M30 86c-10 2-16 8-14 16M90 86c10 2 16 8 14 16" stroke="#2B2520" stroke-width="3" stroke-linecap="round"/>
+        <path d="M30 90c-9 3-13 9-11 15" stroke="#A8803F" stroke-width="3" stroke-linecap="round"/>
       </svg>
       <div class="join-title" id="join-title">讓 AI 幫你騰出雙手</div>
       <div class="join-title-en" id="join-title-en">Let AI Lend a Hand</div>
@@ -39,10 +39,10 @@
     <header class="screen-top">
       <div class="host-brand">
         <svg width="54" height="54" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-          <rect x="30" y="26" width="60" height="44" rx="14" fill="#FBF5E8" stroke="#B88A48" stroke-width="3"/>
-          <circle cx="60" cy="46" r="12" fill="#5E9B82" stroke="#3C7A62" stroke-width="3"/><circle cx="60" cy="46" r="4.5" fill="#FBF5E8"/>
-          <line x1="60" y1="26" x2="60" y2="16" stroke="#B88A48" stroke-width="3"/><circle cx="60" cy="14" r="4" fill="#C0392B"/>
-          <rect x="38" y="74" width="44" height="26" rx="9" fill="#FBF5E8" stroke="#B88A48" stroke-width="3"/>
+          <rect x="30" y="26" width="60" height="44" rx="14" fill="#FBF5E8" stroke="#A8803F" stroke-width="3"/>
+          <circle cx="60" cy="46" r="12" fill="#A8803F" stroke="#87682F" stroke-width="3"/><circle cx="60" cy="46" r="4.5" fill="#FBF5E8"/>
+          <line x1="60" y1="26" x2="60" y2="16" stroke="#A8803F" stroke-width="3"/><circle cx="60" cy="14" r="4" fill="#2B2520"/>
+          <rect x="38" y="74" width="44" height="26" rx="9" fill="#FBF5E8" stroke="#A8803F" stroke-width="3"/>
         </svg>
         <div class="t"><span id="s-brand-zh" class="title-fx">讓 AI 幫你騰出雙手</span><small id="s-brand-en">Let AI Lend a Hand</small></div>
       </div>
@@ -64,10 +64,10 @@
     <header class="host-top">
       <div class="host-brand">
         <svg width="42" height="42" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-          <rect x="30" y="26" width="60" height="44" rx="14" fill="#FBF5E8" stroke="#B88A48" stroke-width="3"/>
-          <circle cx="60" cy="46" r="12" fill="#5E9B82" stroke="#3C7A62" stroke-width="3"/><circle cx="60" cy="46" r="4.5" fill="#FBF5E8"/>
-          <line x1="60" y1="26" x2="60" y2="16" stroke="#B88A48" stroke-width="3"/><circle cx="60" cy="14" r="4" fill="#C0392B"/>
-          <rect x="38" y="74" width="44" height="26" rx="9" fill="#FBF5E8" stroke="#B88A48" stroke-width="3"/>
+          <rect x="30" y="26" width="60" height="44" rx="14" fill="#FBF5E8" stroke="#A8803F" stroke-width="3"/>
+          <circle cx="60" cy="46" r="12" fill="#A8803F" stroke="#87682F" stroke-width="3"/><circle cx="60" cy="46" r="4.5" fill="#FBF5E8"/>
+          <line x1="60" y1="26" x2="60" y2="16" stroke="#A8803F" stroke-width="3"/><circle cx="60" cy="14" r="4" fill="#2B2520"/>
+          <rect x="38" y="74" width="44" height="26" rx="9" fill="#FBF5E8" stroke="#A8803F" stroke-width="3"/>
         </svg>
         <div class="t"><span id="h-brand-zh">讓 AI 幫你騰出雙手</span><small id="h-brand-en">Let AI Lend a Hand</small><em class="host-tag">主持控制台 HOST</em></div>
       </div>
@@ -135,7 +135,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="firebase-config.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="firebase-config.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
