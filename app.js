@@ -90,7 +90,6 @@
         `<div class="hint">本題暫停收集中，講師開放後即可作答。<br><span class="en">Submissions are paused for now.</span></div>`;
       return;
     }
-    if (sentThisQuestion) { body.innerHTML = sentHtml(); $("#again").onclick = () => { sentThisQuestion = false; renderJoin(); }; return; }
     body.innerHTML = questionHtml(qNumber(idx), slide) + answerFormHtml();
     bindForm(idx);
   }
@@ -145,12 +144,14 @@
       <h2 class="qtext">${esc(q.zh)}</h2>${q.en ? `<div class="qtext-en">${esc(q.en)}</div>` : ""}${q.note ? `<div class="qcard-note">${esc(q.note)}</div>` : ""}</div>`;
   }
   function answerFormHtml() {
+    const who = esc(ssGet("nick") || "");
     return `<div class="answer-area">
+      ${who ? `<div class="answer-who">以 <b>${who}</b> 的身分作答</div>` : ""}
       <textarea id="ans" maxlength="300" placeholder="把你的想法打在這裡…"></textarea>
       <div class="counter"><span id="cc">0</span>/300</div>
-      <div class="row mt"><input id="nick" maxlength="16" placeholder="暱稱（可留白＝匿名）" /></div>
       <button class="btn block jade" id="send" style="margin-top:14px">送出 · Send</button>
-      <div class="hint">可以送出多則；換頁時畫面會自動更新。</div></div>`;
+      <div id="send-toast" class="send-toast" hidden>✓ 已送出！同一題可以再寫一則</div>
+      <div class="hint">同一題可以送出很多則。</div></div>`;
   }
   function sentHtml() {
     return `<div class="sent-box">
@@ -164,18 +165,20 @@
       <div class="en" style="margin-top:6px">${esc(en)}</div><div class="dots"><i></i><i></i><i></i></div></div>`;
   }
   function bindForm(idx) {
-    const ans = $("#ans"), cc = $("#cc"), send = $("#send");
-    const saved = ssGet("nick"); if (saved) $("#nick").value = saved;
+    const ans = $("#ans"), cc = $("#cc"), send = $("#send"), toast = $("#send-toast");
     ans.addEventListener("input", () => { cc.textContent = ans.value.length; });
     ans.focus();
     send.addEventListener("click", async () => {
       const text = ans.value.trim();
       if (!text) { ans.focus(); ans.style.borderColor = "var(--ink)"; return; }
-      const name = $("#nick").value.trim().slice(0, 16);
-      ssSet("nick", name);
+      const name = (ssGet("nick") || "").slice(0, 16);   // 名字沿用填名字頁，作答頁不再詢問
       send.disabled = true; send.textContent = "送出中…";
-      try { await RESP_REF.push({ q: idx, text: text.slice(0, 300), name: name || "", ts: Date.now() }); sentThisQuestion = true; renderJoin(); }
-      catch (e) { send.disabled = false; send.textContent = "送出 · Send"; alert("送出失敗，請確認網路後再試一次。"); }
+      try {
+        await RESP_REF.push({ q: idx, text: text.slice(0, 300), name: name || "", ts: Date.now() });
+        ans.value = ""; cc.textContent = "0";            // 清空續填，同一題可重複送出
+        send.disabled = false; send.textContent = "送出 · Send"; ans.focus();
+        if (toast) { toast.hidden = false; clearTimeout(bindForm._t); bindForm._t = setTimeout(() => { if (toast) toast.hidden = true; }, 2600); }
+      } catch (e) { send.disabled = false; send.textContent = "送出 · Send"; alert("送出失敗，請確認網路後再試一次。"); }
     });
   }
 
@@ -215,7 +218,7 @@
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
-      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=19" alt="讓 AI 幫你騰出雙手"/></div>`;
+      stage.innerHTML = `<div class="slide-cover"><img class="cover-img" src="assets/img/hero-poster.jpg?v=20" alt="讓 AI 幫你騰出雙手"/></div>`;
     } else if (slide.type === "qr") {
       stage.innerHTML = `<div class="idle-stage big-qr">
         <div class="big title-fx outlined">${esc(slide.zh || "掃碼加入")}</div>

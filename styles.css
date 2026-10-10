@@ -361,3 +361,8 @@ body { font-weight: 500; }
 
 /* 填名字頁：整個欄位上下置中（手機） */
 #view-join.name-mode { display: flex; flex-direction: column; justify-content: center; min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); }
+
+/* 作答頁：身分提示＋送出成功提示（不再有暱稱欄）*/
+.answer-who { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
+.answer-who b { color: var(--ink); font-weight: 700; }
+.send-toast { margin-top: 12px; text-align: center; font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--ink); background: var(--gold); border-radius: 999px; padding: 10px 14px; box-shadow: var(--shadow); animation: pop .3s cubic-bezier(.2,1.4,.4,1); }
