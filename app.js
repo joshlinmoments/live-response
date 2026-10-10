@@ -66,9 +66,6 @@
     const body = $("#join-body");
     if (!config) { body.innerHTML = waitingHtml("正在連線…", "Connecting…"); return; }
 
-    $("#join-title").textContent = config.title || "即時回應";
-    $("#join-title-en").textContent = config.titleEn || "";
-
     const idx = activeIdx();
     const q = (config.questions || [])[idx];
     if (idx !== lastIdxJoin) { sentThisQuestion = false; lastIdxJoin = idx; }

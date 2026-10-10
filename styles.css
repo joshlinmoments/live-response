@@ -89,6 +89,7 @@ body {
 
 /* ══════════ ① 手機介面（學員） ══════════ */
 #view-join { padding: 22px 18px 40px; max-width: 560px; margin: 0 auto; }
+.hero-poster { display:block; width:100%; height:auto; border-radius: var(--r); box-shadow: var(--shadow-lg); margin-bottom: 20px; }
 .join-head { text-align: center; margin: 8px 0 20px; }
 .join-robot { width: 96px; height: 96px; margin: 0 auto 6px; display: block; }
 .join-title { font-family: var(--font-cjk); font-weight: 900; font-size: clamp(27px,7.2vw,38px); line-height: 1.12; margin: 2px 0;
