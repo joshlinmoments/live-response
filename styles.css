@@ -136,6 +136,9 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 
 /* ══════════ ③ 主持控制台 header ══════════ */
 #view-host { display: flex; flex-direction: column; min-height: 100%; }
+/* 主持台 header 隱藏（手機操控更省空間）；內容補上安全區塊頂距 */
+#view-host .host-top { display: none; }
+#view-host .host-panel { padding-top: calc(16px + env(safe-area-inset-top, 0px)); }
 .host-top {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
   display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
