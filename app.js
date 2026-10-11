@@ -259,6 +259,7 @@
     const stage = $("#s-stage"); const wall = $("#s-wall");
     wall.innerHTML = "";
     stage.dataset.type = slide ? slide.type : "";
+    if (slide && slide.type === "image" && slide.full) stage.dataset.full = "1"; else stage.removeAttribute("data-full");
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
