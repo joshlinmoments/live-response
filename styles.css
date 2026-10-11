@@ -244,9 +244,10 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 .host-tag { display:inline-block; margin-top:4px; font-family:var(--font-en); font-weight:700; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--cream); background:var(--ink); padding:2px 9px; border-radius:999px; }
 .host-top-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 
-.host-panel { display:grid; grid-template-columns:1fr 1fr; gap:18px; padding:20px; max-width:1100px; margin:0 auto; width:100%; }
-@media (max-width:820px){ .host-panel { grid-template-columns:1fr; } }
-.ctrl-card, .mod-card { background:var(--card); border-radius:var(--r); box-shadow:var(--shadow); padding:20px; }
+.host-panel { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; padding:20px; max-width:1100px; margin:0 auto; width:100%; }
+@media (max-width:820px){ .host-panel { grid-template-columns:minmax(0,1fr); gap:14px; padding:14px; } }
+.ctrl-card, .mod-card { min-width:0; background:var(--card); border-radius:var(--r); box-shadow:var(--shadow); padding:20px; }
+@media (max-width:480px){ .ctrl-card, .mod-card { padding:15px; } }
 .card-label { font-family:var(--font-en); text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:12px; }
 .card-label b { color:var(--ink); font-family:var(--font-body); font-size:16px; }
 
