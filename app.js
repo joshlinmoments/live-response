@@ -242,6 +242,8 @@
     const changed = (idx !== lastIdxScreen) || (sig !== lastSigScreen);
     if (changed) { lastIdxScreen = idx; lastSigScreen = sig; screenRendered.clear(); buildScreenStage(slide); }
 
+    // 代理人頁改用宣紙底（非黑底）
+    document.body.classList.toggle("screen-paper", !!slide && slide.type === "agents");
     // 角落 QR：只在問題頁顯示（方便中途重新加入）；封面/影片/圖片/agents 等非作答頁一律收起
     $("#s-qrwrap").hidden = !isQuestion(slide);
     // 留言牆只在問題頁顯示
