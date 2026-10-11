@@ -260,6 +260,7 @@
     wall.innerHTML = "";
     stage.dataset.type = slide ? slide.type : "";
     if (slide && slide.type === "image" && slide.full) stage.dataset.full = "1"; else stage.removeAttribute("data-full");
+    if (slide && slide.type === "quote" && slide.bg) stage.dataset.bg = "1"; else stage.removeAttribute("data-bg");
     if (!slide) { stage.innerHTML = `<div class="idle-stage big-qr"><div class="big title-fx outlined">${esc(config.title || "準備開始")}</div><div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入作答</b><span class="en">Scan to join</span></div></div></div>`; makeQR($("#s-bigqr"), 300); return; }
 
     if (slide.type === "cover") {
@@ -289,7 +290,8 @@
     } else if (slide.type === "quote") {
       const br = (s) => esc(s).replace(/\n/g, "<br>");
       const long = slide.zh && slide.zh.replace(/\s/g, "").length > 48 ? " long" : "";
-      stage.innerHTML = `<div class="slide-quote${long}">
+      const bgStyle = slide.bg ? ` style="background-image:url('${esc(slide.bg)}')"` : "";
+      stage.innerHTML = `<div class="slide-quote${long}${slide.bg ? " has-bg" : ""}"${bgStyle}>
         ${slide.src ? `<div class="quote-src">${esc(slide.src)}${slide.srcEn ? `<span class="quote-src-en">${esc(slide.srcEn)}</span>` : ""}</div>` : ""}
         <div class="quote-zh">${br(slide.zh || "")}</div>
         ${slide.en ? `<div class="quote-en">${br(slide.en)}</div>` : ""}</div>`;
