@@ -305,6 +305,17 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 .media-img { max-width:min(100%, 1200px); max-height:78vh; width:auto; height:auto; display:block; border-radius:var(--r); box-shadow:var(--shadow-lg); }
 .media-cap { font-family:var(--font-cjk); font-weight:900; font-style:italic; font-size:clamp(22px,2.6vw,36px); text-align:center; text-wrap:balance; max-width:1100px; }
 
+/* 經典聖訓頁（投影，深底、黑體中文＋下方英文） */
+.slide-quote { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; min-height:70vh; padding:30px 48px; text-align:center; }
+.quote-src { font-family:var(--font-cjk); font-weight:900; font-style:italic; font-size:clamp(22px,2.4vw,36px); color:var(--gold); -webkit-text-stroke:.6px rgba(0,0,0,.35); }
+.quote-src-en { display:block; font-family:var(--font-en); font-style:italic; font-size:clamp(13px,1.3vw,19px); color:#C9A75E; letter-spacing:.04em; margin-top:4px; -webkit-text-stroke:0; }
+.quote-zh { font-family:var(--font-body); font-weight:700; font-size:clamp(28px,3.6vw,54px); line-height:1.6; color:var(--cream); max-width:1280px; text-wrap:balance; }
+.quote-en { font-family:var(--font-en); font-size:clamp(16px,1.7vw,26px); line-height:1.55; color:#D8C9A6; max-width:1120px; }
+/* 長段落（如聖訓）：縮小、左右對齊易讀 */
+.slide-quote.long { justify-content:center; gap:22px; }
+.slide-quote.long .quote-zh { font-size:clamp(21px,2.2vw,36px); line-height:1.8; text-align:left; max-width:1240px; }
+.slide-quote.long .quote-en { font-size:clamp(15px,1.5vw,22px); text-align:left; max-width:1240px; }
+
 /* AI agents 牆 */
 .slide-agents { padding:4px 4px 10px; }
 .agents-head { text-align:center; margin-bottom:22px; }

@@ -285,6 +285,13 @@
     } else if (slide.type === "agents") {
       stage.innerHTML = agentsHtml();
       wireAgentFallbacks(stage);
+    } else if (slide.type === "quote") {
+      const br = (s) => esc(s).replace(/\n/g, "<br>");
+      const long = slide.zh && slide.zh.replace(/\s/g, "").length > 48 ? " long" : "";
+      stage.innerHTML = `<div class="slide-quote${long}">
+        ${slide.src ? `<div class="quote-src">${esc(slide.src)}${slide.srcEn ? `<span class="quote-src-en">${esc(slide.srcEn)}</span>` : ""}</div>` : ""}
+        <div class="quote-zh">${br(slide.zh || "")}</div>
+        ${slide.en ? `<div class="quote-en">${br(slide.en)}</div>` : ""}</div>`;
     } else { // question
       stage.innerHTML = `<div class="q-display">
         <div class="q-num">${qNumber(activeIdx())}<small>QUESTION</small></div>
@@ -409,6 +416,7 @@
     if (s.type === "video") return "影片 · " + (s.label || "Video");
     if (s.type === "image") return "圖片 · " + (s.label || "Image");
     if (s.type === "agents") return "AI 代理人牆 · AI Agents";
+    if (s.type === "quote") return "經典 · " + (s.src || "經典聖訓");
     if (s.type === "question") return s.zh || "問題";
     return s.type;
   }
@@ -425,7 +433,7 @@
     $("#h-qpos").innerHTML = `第 <b>${idx + 1}</b>/${slides.length} 頁`;
 
     const now = $("#h-now");
-    const kindTag = slide ? ({cover:"封面",qr:"QR 碼",name:"填名字",video:"影片",image:"圖片",agents:"AI 代理人牆",question:"問題"}[slide.type] || slide.type) : "—";
+    const kindTag = slide ? ({cover:"封面",qr:"QR 碼",name:"填名字",video:"影片",image:"圖片",agents:"AI 代理人牆",quote:"經典聖訓",question:"問題"}[slide.type] || slide.type) : "—";
     if (isQuestion(slide)) {
       now.innerHTML = `<div class="now-q"><span class="now-badge">Q${qNumber(idx)}</span><div><div class="now-kind">問題頁</div><div class="now-zh">${esc(slide.zh)}</div>${slide.en ? `<div class="now-en en">${esc(slide.en)}</div>` : ""}</div></div>`;
     } else {
@@ -448,13 +456,14 @@
   // 投影片選單（主持台：列出每一頁，點擊直接跳轉）
   function slideMenuLabel(s, i) {
     if (s.type === "question") return "Q" + qNumber(i) + "　" + (s.zh || "問題");
+    if (s.type === "quote") return (s.src || "經典") + "　" + (s.zh || "").replace(/\s+/g, "").slice(0, 12);
     const names = { cover: "封面 · 首頁", name: "掃碼 · 填名字", qr: "掃碼加入", video: (s.label || "影片"), image: (s.label || "圖片"), agents: "AI 代理人牆" };
     return names[s.type] || s.type;
   }
   function renderSlideMenu() {
     const box = $("#h-slidemenu"); if (!box || !config) return;
     const slides = slidesOf(), cur = activeIdx();
-    const kind = { cover: "封面", name: "填名字", qr: "QR", video: "影片", image: "圖片", agents: "代理人", question: "問題" };
+    const kind = { cover: "封面", name: "填名字", qr: "QR", video: "影片", image: "圖片", agents: "代理人", quote: "經典", question: "問題" };
     box.innerHTML = slides.map((s, i) =>
       `<button class="smrow${i === cur ? " active" : ""}" data-go="${i}">
          <span class="smnum">${i + 1}</span>
