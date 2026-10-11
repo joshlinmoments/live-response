@@ -356,6 +356,8 @@ body { font-weight: 500; }
 /* 玩家畫面題目一律改黑體（源樣黑 Bold，非饅頭黑） */
 .qtext { font-family: var(--font-body); font-weight: 700; font-style: normal; text-shadow: none; }
 .qtext-en { font-family: var(--font-body); font-weight: 500; font-style: normal; }
+/* 手機題目：印尼文（Bahasa Indonesia）第三語，斜體金銅色區隔 */
+.qtext-id { font-family: var(--font-body); font-weight: 500; font-style: italic; font-size: clamp(14px,4vw,17px); color: #E7C98C; line-height: 1.4; margin-top: 4px; }
 /* 主持端「目前題目」預覽改黑體 */
 .now-zh { font-family: var(--font-body); font-weight: 700; font-style: normal; }
 /* 玩家畫面進入問題頁時隱藏頂部海報 */
@@ -369,6 +371,12 @@ body { font-weight: 500; }
 .name-input { width:100%; font-family:var(--font-body); font-weight:700; font-size:20px; text-align:center; background:#fff; border:2px solid var(--line); border-radius:var(--r-s); padding:14px; outline:none; color:var(--ink); }
 .name-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(168,128,63,.25); }
 .namecard .hint { color:#E2D3B4; }
+
+/* 投影留言牆：三語自動翻譯（中文為主＋英文/印尼文小字） */
+.wcard .wc-body { min-width: 0; }
+.wcard .txt-sub { margin-top: 7px; font-family: var(--font-body); font-weight: 500; font-size: clamp(14px,1.15vw,18px); line-height: 1.4; color: var(--ink-soft); word-break: break-word; }
+.wcard .txt-sub.id-sub { font-style: italic; color: var(--gold-d); }
+.wcard .txt-pending { margin-top: 7px; font-family: var(--font-en); font-style: italic; font-size: 13px; color: var(--gold-d); }
 
 /* 填名字頁：整個欄位上下置中（手機） */
 #view-join.name-mode { display: flex; flex-direction: column; justify-content: center; min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); }

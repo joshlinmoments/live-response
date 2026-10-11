@@ -17,6 +17,7 @@
   let config = null;
   const responsesCache = {};
   const screenRendered = new Set();
+  const translating = new Set();   // 投影端：正在翻譯中的留言 id
 
   const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -144,7 +145,7 @@
 
   function questionHtml(n, q) {
     return `<div class="qcard"><span class="qbadge">Q${n}</span>
-      <h2 class="qtext">${esc(q.zh)}</h2>${q.en ? `<div class="qtext-en">${esc(q.en)}</div>` : ""}${q.note ? `<div class="qcard-note">${esc(q.note)}</div>` : ""}</div>`;
+      <h2 class="qtext">${esc(q.zh)}</h2>${q.en ? `<div class="qtext-en">${esc(q.en)}</div>` : ""}${q.id ? `<div class="qtext-id">${esc(q.id)}</div>` : ""}${q.note ? `<div class="qcard-note">${esc(q.note)}</div>` : ""}</div>`;
   }
   function answerFormHtml() {
     const who = esc(ssGet("nick") || "");
@@ -332,13 +333,63 @@
     }
     if (!wall.querySelector(".wcard")) { wall.innerHTML = ""; screenRendered.clear(); }
     items.forEach(([id, r]) => {
-      if (screenRendered.has(id)) return;
-      screenRendered.add(id);
-      const el = document.createElement("div");
-      el.className = "wcard c" + (hashInt(id) % 5);
-      el.innerHTML = `<div class="txt">${esc(r.text)}</div><div class="who">— <b>${esc(r.name && r.name.trim() ? r.name : "匿名夥伴")}</b></div>`;
-      wall.appendChild(el);
+      if (!screenRendered.has(id)) {
+        screenRendered.add(id);
+        const el = document.createElement("div");
+        el.className = "wcard c" + (hashInt(id) % 5);
+        el.dataset.rid = id;
+        el.innerHTML = `<div class="wc-body">${textBlockHtml(r)}</div><div class="who">— <b>${esc(r.name && r.name.trim() ? r.name : "匿名夥伴")}</b></div>`;
+        wall.appendChild(el);
+      }
+      if (!r.tr) translateResp(id, r);   // 投影端自動翻譯成三語
     });
+  }
+
+  // 留言卡內文：有翻譯→中文為主＋英/印尼小字；無翻譯→原文＋翻譯中
+  function textBlockHtml(r) {
+    if (r.tr && (r.tr.zh || r.tr.en || r.tr.id)) {
+      const zh = r.tr.zh || r.text;
+      let sub = "";
+      if (r.tr.en) sub += `<div class="txt-sub en-sub">${esc(r.tr.en)}</div>`;
+      if (r.tr.id) sub += `<div class="txt-sub id-sub">${esc(r.tr.id)}</div>`;
+      return `<div class="txt">${esc(zh)}</div>${sub}`;
+    }
+    return `<div class="txt">${esc(r.text)}</div><div class="txt-pending">翻譯中… · translating…</div>`;
+  }
+  function updateWallCard(id) {
+    const r = responsesCache[id]; if (!r) return;
+    const sel = (window.CSS && CSS.escape) ? CSS.escape(id) : id.replace(/["\\]/g, "\\$&");
+    const card = document.querySelector(`#s-wall .wcard[data-rid="${sel}"]`);
+    const body = card && card.querySelector(".wc-body");
+    if (body) body.innerHTML = textBlockHtml(r);
+  }
+
+  // ---- 免金鑰翻譯（Google gtx 端點，CORS 開放）：中文以 CJK 判斷，拉丁文用偵測分 en/id ----
+  const hasCJK = (t) => /[\u3400-\u9fff\uf900-\ufaff]/.test(t || "");
+  async function gtrans(text, tl) {
+    const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=" + tl + "&dt=t&q=" + encodeURIComponent(text);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("t" + res.status);
+    const j = await res.json();
+    return { out: (j[0] || []).map((s) => s[0]).join(""), det: String(j[2] || "").toLowerCase() };
+  }
+  async function translateResp(id, r) {
+    if (ROLE !== "screen" || !r || !r.text || r.tr || translating.has(id)) return;
+    translating.add(id);
+    try {
+      let zh, en, idn, src;
+      if (hasCJK(r.text)) {                       // 中文輸入：原文為中文，翻英＋印尼
+        src = "zh"; zh = r.text;
+        const [e, i] = await Promise.all([gtrans(r.text, "en"), gtrans(r.text, "id")]);
+        en = e.out; idn = i.out;
+      } else {                                    // 拉丁字母：翻中文並偵測 en / id
+        const z = await gtrans(r.text, "zh-TW"); zh = z.out;
+        if (z.det.indexOf("id") === 0) { src = "id"; idn = r.text; en = (await gtrans(r.text, "en")).out; }
+        else { src = "en"; en = r.text; idn = (await gtrans(r.text, "id")).out; }
+      }
+      await RESP_REF.child(id).update({ tr: { zh: zh || r.text, en: en || "", id: idn || "", src } });
+    } catch (e) { /* 翻譯失敗就維持原文，下次切回此題再試 */ }
+    finally { translating.delete(id); }
   }
 
   // ════════════════════════════════════════════════════════
@@ -405,6 +456,11 @@
     if (ROLE === "screen") { if (isQuestion(curSlide())) renderScreenWall(); }
     else if (ROLE === "host") renderModList();
   });
+  RESP_REF.on("child_changed", (snap) => {
+    responsesCache[snap.key] = snap.val();
+    if (ROLE === "screen") { if (isQuestion(curSlide())) updateWallCard(snap.key); }
+    else if (ROLE === "host") renderModList();
+  });
   RESP_REF.on("child_removed", (snap) => {
     delete responsesCache[snap.key]; screenRendered.delete(snap.key);
     if (ROLE === "screen") { screenRendered.clear(); const w = $("#s-wall"); if (w) w.innerHTML = ""; if (isQuestion(curSlide())) renderScreenWall(); }
@@ -459,9 +515,17 @@
       <input class="qe" value="${esc(q.en || "")}" placeholder="English (optional)" /></div>`;
   }
   function readQEdits() {
-    return Array.from(document.querySelectorAll("#q-edit-list .q-edit")).map((row) => ({
-      type: "question", zh: row.querySelector(".qz").value.trim(), en: row.querySelector(".qe").value.trim(),
-    })).filter((q) => q.zh);
+    // 以 zh 比對保留既有的 印尼文 id / 附註 note / 作答格式 fmt（面板只編中英文，但不應洗掉這些）
+    const prior = {};
+    slidesOf().filter(isQuestion).forEach((q) => { if (q.zh) prior[q.zh] = q; });
+    return Array.from(document.querySelectorAll("#q-edit-list .q-edit")).map((row) => {
+      const zh = row.querySelector(".qz").value.trim();
+      const en = row.querySelector(".qe").value.trim();
+      const q = { type: "question", zh, en };
+      const p = prior[zh];
+      if (p) { if (p.id) q.id = p.id; if (p.note) q.note = p.note; if (p.fmt) q.fmt = p.fmt; }
+      return q;
+    }).filter((q) => q.zh);
   }
   function wireSetup() {
     $("#q-add").addEventListener("click", () => { const cur = readQEdits(); cur.push({ zh: "", en: "" }); drawQEdits(cur); const z = document.querySelectorAll("#q-edit-list .qz"); z[z.length - 1]?.focus(); });
