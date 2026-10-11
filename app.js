@@ -278,10 +278,17 @@
         <div class="big-qr-box"><div id="s-bigqr"></div><div class="scan-label"><b>掃碼加入 · 輸入名字</b><span class="en">Scan the QR code to begin</span></div></div></div>`;
       makeQR($("#s-bigqr"), 340);
     } else if (slide.type === "video") {
-      stage.innerHTML = `<div class="slide-media">
-        ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}
-        <video class="media-video" src="${esc(slide.src)}" controls playsinline preload="metadata"></video></div>`;
-      wireVideoClip(stage.querySelector("video"), +slide.start || 0, +slide.end || 0);
+      const yt = slide.yt || ytId(slide.src);
+      if (yt) {
+        stage.innerHTML = `<div class="slide-media">
+          ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}
+          <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/${esc(yt)}?rel=0&modestbranding=1&playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div></div>`;
+      } else {
+        stage.innerHTML = `<div class="slide-media">
+          ${slide.label ? `<div class="media-cap title-fx outlined">${esc(slide.label)}</div>` : ""}
+          <video class="media-video" src="${esc(slide.src)}" controls playsinline preload="metadata"></video></div>`;
+        wireVideoClip(stage.querySelector("video"), +slide.start || 0, +slide.end || 0);
+      }
     } else if (slide.type === "image") {
       stage.innerHTML = `<div class="slide-media"><img class="media-img" src="${esc(slide.src)}" alt="${esc(slide.label || "")}"/></div>`;
     } else if (slide.type === "agents") {
@@ -319,6 +326,8 @@
       <div class="agents-grid">${tiles}</div></div>`;
   }
   function monogram(name) { const parts = name.replace(/[^A-Za-z0-9 ]/g, "").trim().split(/\s+/); return ((parts[0]||"?")[0] + (parts[1] ? parts[1][0] : (parts[0][1]||""))).toUpperCase(); }
+  // 從 YouTube 網址取出 11 碼影片 ID
+  function ytId(u) { if (!u) return ""; const m = String(u).match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : ""; }
   // 影片只播指定區段 [start, end]（秒）
   function wireVideoClip(v, start, end) {
     if (!v) return;
