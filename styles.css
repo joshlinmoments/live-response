@@ -314,8 +314,8 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 /* 長段落（如聖訓）：縮小、左右對齊易讀 */
 .slide-quote.long { justify-content:center; gap:16px; padding:16px 48px; }
 .slide-quote.long .quote-src { font-size:clamp(20px,2vw,32px); }
-.slide-quote.long .quote-zh { font-size:clamp(19px,1.95vw,32px); line-height:1.62; text-align:left; max-width:1240px; }
-.slide-quote.long .quote-en { font-size:clamp(14px,1.4vw,20px); line-height:1.45; text-align:left; max-width:1240px; }
+.slide-quote.long .quote-zh { font-size:clamp(19px,1.95vw,32px); line-height:1.62; text-align:center; max-width:1240px; }
+.slide-quote.long .quote-en { font-size:clamp(14px,1.4vw,20px); line-height:1.45; text-align:center; max-width:1240px; }
 
 /* AI agents 牆 */
 .slide-agents { padding:4px 4px 10px; }
