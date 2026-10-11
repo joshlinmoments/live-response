@@ -324,7 +324,7 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 .slide-quote.long { justify-content:center; gap:16px; padding:16px 48px; }
 .slide-quote.long .quote-src { font-size:clamp(20px,2vw,32px); }
 /* 中英文左對齊、且左邊界對齊（等寬置中區塊內靠左） */
-.slide-quote.long .quote-zh { font-size:clamp(19px,1.95vw,32px); line-height:1.62; text-align:left; width:min(1100px,92%); max-width:none; }
+.slide-quote.long .quote-zh { font-size:clamp(22px,2.4vw,42px); line-height:1.55; text-align:left; width:min(1100px,92%); max-width:none; }
 .slide-quote.long .quote-en { font-size:clamp(14px,1.4vw,20px); line-height:1.45; text-align:left; width:min(1100px,92%); max-width:none; }
 
 /* 經典頁整張圖當背景（滿版＋深色漸層遮罩，確保白字可讀） */
