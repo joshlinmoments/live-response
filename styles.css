@@ -400,4 +400,5 @@ body { font-weight: 500; }
 .cloze-in { width: 100%; font-family: var(--font-body); font-weight: 700; font-size: 20px; text-align: center; background: #fff; border: 2px solid var(--line); border-radius: var(--r-s); padding: 15px 14px; outline: none; color: var(--ink); }
 .cloze-in::placeholder { font-weight: 500; color: var(--ink-soft); opacity: .7; }
 .cloze-in:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,32,.14); }
-.cloze-op { text-align: center; font-family: var(--font-cjk); font-weight: 900; font-style: italic; font-size: 22px; color: var(--gold-d); line-height: 1; }
+.cloze-op { text-align: center; font-family: var(--font-body); font-weight: 700; font-style: normal; font-size: 30px; color: var(--ink); line-height: 1; }
+.cloze-arrow { text-align: center; font-size: 26px; line-height: 1; color: var(--gold); font-weight: 700; }

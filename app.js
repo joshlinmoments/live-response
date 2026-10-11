@@ -164,7 +164,9 @@
       ${who ? `<div class="answer-who">以 <b>${who}</b> 的身分作答</div>` : ""}
       <div class="cloze-fields">
         <input id="ans-a" class="cloze-in" maxlength="30" placeholder="新的事物（例：AI）" />
+        <div class="cloze-arrow" aria-hidden="true">↓</div>
         <div class="cloze-op">取代了</div>
+        <div class="cloze-arrow" aria-hidden="true">↓</div>
         <input id="ans-b" class="cloze-in" maxlength="30" placeholder="舊的事物（例：翻譯）" />
       </div>
       <button class="btn block jade" id="send" style="margin-top:16px">送出 · Send</button>
