@@ -439,7 +439,27 @@
 
     makeQR($("#h-qr"), 128);
     $("#h-joinurl").textContent = joinUrl();
+    renderSlideMenu();
     renderModList();
+  }
+
+  // 投影片選單（主持台：列出每一頁，點擊直接跳轉）
+  function slideMenuLabel(s, i) {
+    if (s.type === "question") return "Q" + qNumber(i) + "　" + (s.zh || "問題");
+    const names = { cover: "封面 · 首頁", name: "掃碼 · 填名字", qr: "掃碼加入", video: (s.label || "影片"), image: (s.label || "圖片"), agents: "AI 代理人牆" };
+    return names[s.type] || s.type;
+  }
+  function renderSlideMenu() {
+    const box = $("#h-slidemenu"); if (!box || !config) return;
+    const slides = slidesOf(), cur = activeIdx();
+    const kind = { cover: "封面", name: "填名字", qr: "QR", video: "影片", image: "圖片", agents: "代理人", question: "問題" };
+    box.innerHTML = slides.map((s, i) =>
+      `<button class="smrow${i === cur ? " active" : ""}" data-go="${i}">
+         <span class="smnum">${i + 1}</span>
+         <span class="smkind">${esc(kind[s.type] || s.type)}</span>
+         <span class="smtitle">${esc(slideMenuLabel(s, i))}</span>
+         ${i === cur ? '<span class="smnow">● 播放中</span>' : ""}
+       </button>`).join("");
   }
 
   function renderModList() {
@@ -478,6 +498,7 @@
     $("#h-prev").addEventListener("click", () => { if (activeIdx() > 0) stepTo(activeIdx() - 1); });
     $("#h-next").addEventListener("click", () => { if (activeIdx() < slidesOf().length - 1) stepTo(activeIdx() + 1); });
     $("#h-home").addEventListener("click", () => stepTo(0));
+    $("#h-slidemenu").addEventListener("click", (e) => { const btn = e.target.closest("[data-go]"); if (btn) stepTo(+btn.getAttribute("data-go")); });
     $("#h-accept").addEventListener("change", (e) => patchConfig({ accepting: e.target.checked }));
     $("#h-reveal").addEventListener("change", (e) => patchConfig({ reveal: e.target.checked }));
     $("#h-showqr").addEventListener("change", (e) => patchConfig({ showQR: e.target.checked }));

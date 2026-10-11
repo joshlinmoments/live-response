@@ -259,6 +259,18 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 
 .step-row { display:flex; gap:10px; margin-top:12px; }
 .step-row .btn { flex:1; }
+
+/* 投影片選單（主持台直接跳頁） */
+.slide-menu { display:flex; flex-direction:column; gap:6px; max-height:320px; overflow-y:auto; margin:8px 0 4px; padding:6px; background:var(--paper); border-radius:var(--r-s); }
+.smrow { display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:var(--card); border:1.5px solid var(--line); border-radius:10px; padding:9px 12px; cursor:pointer; font-family:var(--font-body); color:var(--ink); transition:background .12s, border-color .12s, transform .06s; }
+.smrow:hover { border-color:var(--gold); }
+.smrow:active { transform:scale(.99); }
+.smrow.active { background:var(--ink); border-color:var(--ink); color:var(--cream); }
+.smnum { flex:0 0 auto; width:26px; height:26px; border-radius:7px; background:var(--gold); color:var(--cream); font-family:var(--font-en); font-weight:700; font-size:14px; display:grid; place-items:center; }
+.smkind { flex:0 0 auto; font-family:var(--font-en); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); background:var(--paper); border-radius:999px; padding:2px 9px; }
+.smrow.active .smkind { color:#E7D8BC; background:rgba(255,255,255,.14); }
+.smtitle { flex:1 1 auto; min-width:0; font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.smnow { flex:0 0 auto; font-family:var(--font-en); font-size:11px; font-style:italic; color:#E7C98C; white-space:nowrap; }
 .toggle-grid { display:flex; flex-direction:column; gap:12px; margin:18px 0; padding:14px 16px; background:var(--paper); border-radius:var(--r-s); }
 .btn-row { display:flex; gap:8px; flex-wrap:wrap; }
 
