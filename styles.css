@@ -226,9 +226,9 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 
 .screen-stage { padding:24px 34px 8px; }
 #view-screen .q-display { align-items:flex-start; gap:22px; }
-#view-screen .q-num { font-size:clamp(48px,6vw,86px); }
-#view-screen .q-zh { font-size:clamp(34px,4.6vw,66px); }
-#view-screen .q-en { font-size:clamp(17px,1.9vw,28px); }
+#view-screen .q-num { font-size:clamp(52px,6.4vw,94px); }
+#view-screen .q-zh { font-size:clamp(40px,5.4vw,78px); }
+#view-screen .q-en { font-size:clamp(19px,2.2vw,32px); }
 #view-screen .wall { padding:12px 34px 48px; columns:360px; }
 #view-screen .wcard .txt { font-size:clamp(19px,1.7vw,26px); }
 
