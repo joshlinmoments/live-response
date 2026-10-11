@@ -44,7 +44,7 @@ body {
   color: var(--ink);
   background:
     radial-gradient(70% 50% at 50% 8%, rgba(251,244,228,.45) 0%, rgba(243,233,212,0) 60%),
-    url("assets/img/bg-clouds.jpg") center top / cover no-repeat,
+    url("assets/img/bg-clouds.jpg?v=24") center top / cover no-repeat,
     var(--paper);
   background-attachment: scroll, fixed, fixed;
   -webkit-font-smoothing: antialiased;
