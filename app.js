@@ -301,6 +301,7 @@
       stage.innerHTML = `<div class="slide-quote${long}${slide.bg ? " has-bg" : ""}"${bgStyle}>
         ${slide.src ? `<div class="quote-src">${esc(slide.src)}${slide.srcEn ? `<span class="quote-src-en">${esc(slide.srcEn)}</span>` : ""}</div>` : ""}
         <div class="quote-zh">${br(slide.zh || "")}</div>
+        ${slide.sub ? `<div class="quote-sub">${br(slide.sub)}</div>` : ""}
         ${slide.en ? `<div class="quote-en">${br(slide.en)}</div>` : ""}</div>`;
     } else { // question
       stage.innerHTML = `<div class="q-display">

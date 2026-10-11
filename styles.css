@@ -315,6 +315,8 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 .quote-src-en { display:block; font-family:var(--font-en); font-style:italic; font-size:clamp(13px,1.3vw,19px); color:#C9A75E; letter-spacing:.04em; margin-top:4px; -webkit-text-stroke:0; }
 .quote-zh { font-family:var(--font-body); font-weight:700; font-size:clamp(28px,3.6vw,54px); line-height:1.6; color:var(--cream); max-width:1280px; text-wrap:balance; }
 .quote-en { font-family:var(--font-en); font-size:clamp(16px,1.7vw,26px); line-height:1.55; color:#D8C9A6; max-width:1120px; }
+/* 小字副標（如「AI 工具？AI 的工具？」） */
+.quote-sub { margin-top:6px; font-family:var(--font-body); font-weight:700; font-size:clamp(17px,1.9vw,28px); color:#E7C98C; line-height:1.4; letter-spacing:.02em; }
 /* 長段落（如聖訓）：縮小、左右對齊易讀 */
 .slide-quote.long { justify-content:center; gap:16px; padding:16px 48px; }
 .slide-quote.long .quote-src { font-size:clamp(20px,2vw,32px); }
@@ -328,7 +330,7 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 .slide-quote.has-bg { position:relative; }
 .slide-quote.has-bg::before { content:""; position:absolute; inset:0; z-index:0; background:linear-gradient(180deg, rgba(8,6,4,.55) 0%, rgba(8,6,4,.32) 42%, rgba(8,6,4,.74) 100%); }
 .slide-quote.has-bg > * { position:relative; z-index:1; }
-.slide-quote.has-bg .quote-zh, .slide-quote.has-bg .quote-en { text-shadow:0 2px 14px rgba(0,0,0,.6); }
+.slide-quote.has-bg .quote-zh, .slide-quote.has-bg .quote-en, .slide-quote.has-bg .quote-sub { text-shadow:0 2px 14px rgba(0,0,0,.6); }
 
 /* AI agents 牆 */
 .slide-agents { padding:4px 4px 10px; }
