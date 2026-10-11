@@ -24,6 +24,8 @@
   const activeIdx = () => (config && typeof config.activeIndex === "number") ? config.activeIndex : 0;
   const curSlide = () => slidesOf()[activeIdx()] || null;
   const isQuestion = (s) => s && s.type === "question";
+  // 照樣造句題：「A」取代了「B」—— 以兩格填空作答（依題目文字判斷，不需另設欄位）
+  const isCloze = (s) => isQuestion(s) && (s.fmt === "cloze" || /取代了/.test(s.zh || ""));
 
   // AI 代理人牆（img = 本機彩色 App 圖示；logo = 單色 SVG；皆無 = 字母徽章）
   const AGENTS = [
@@ -90,8 +92,9 @@
         `<div class="hint">本題暫停收集中，講師開放後即可作答。<br><span class="en">Submissions are paused for now.</span></div>`;
       return;
     }
-    body.innerHTML = questionHtml(qNumber(idx), slide) + answerFormHtml();
-    bindForm(idx);
+    const cloze = isCloze(slide);
+    body.innerHTML = questionHtml(qNumber(idx), slide) + (cloze ? clozeFormHtml() : answerFormHtml());
+    bindForm(idx, cloze);
   }
 
   // 問題在所有投影片中的第幾題（只數 question 類型）
@@ -114,7 +117,7 @@
       <h2 class="name-title">先寫下你的名字吧！</h2>
       <div class="name-sub en">Enter your name to begin</div>
       <input id="myname" class="name-input" maxlength="16" placeholder="你的名字／暱稱" value="${esc(saved)}" />
-      <button class="btn block jade" id="name-save" style="margin-top:14px">進入 · Enter</button>
+      <button class="btn block gold" id="name-save" style="margin-top:14px">進入 · Enter</button>
       <div class="hint">之後每次作答都會自動帶上這個名字。</div>
     </div>`;
   }
@@ -153,6 +156,20 @@
       <div id="send-toast" class="send-toast" hidden>✓ 已送出！同一題可以再寫一則</div>
       <div class="hint">同一題可以送出很多則。</div></div>`;
   }
+  // 照樣造句作答：兩格填空，中間固定「取代了」
+  function clozeFormHtml() {
+    const who = esc(ssGet("nick") || "");
+    return `<div class="answer-area cloze">
+      ${who ? `<div class="answer-who">以 <b>${who}</b> 的身分作答</div>` : ""}
+      <div class="cloze-fields">
+        <input id="ans-a" class="cloze-in" maxlength="30" placeholder="新的事物（例：AI）" />
+        <div class="cloze-op">取代了</div>
+        <input id="ans-b" class="cloze-in" maxlength="30" placeholder="舊的事物（例：翻譯）" />
+      </div>
+      <button class="btn block jade" id="send" style="margin-top:16px">送出 · Send</button>
+      <div id="send-toast" class="send-toast" hidden>✓ 已送出！還可以再造一句</div>
+      <div class="hint">填好兩格後送出，這一題可以造很多句。</div></div>`;
+  }
   function sentHtml() {
     return `<div class="sent-box">
       <div class="sent-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
@@ -164,20 +181,43 @@
     return `<div class="waiting"><div style="font-family:var(--font-cjk);font-weight:900;font-style:italic;font-size:26px;color:var(--gold-d)">${esc(zh)}</div>
       <div class="en" style="margin-top:6px">${esc(en)}</div><div class="dots"><i></i><i></i><i></i></div></div>`;
   }
-  function bindForm(idx) {
-    const ans = $("#ans"), cc = $("#cc"), send = $("#send"), toast = $("#send-toast");
+  function bindForm(idx, cloze) {
+    const send = $("#send"), toast = $("#send-toast");
+    const name = () => (ssGet("nick") || "").slice(0, 16);   // 名字沿用填名字頁，作答頁不再詢問
+    const showToast = () => { if (toast) { toast.hidden = false; clearTimeout(bindForm._t); bindForm._t = setTimeout(() => { if (toast) toast.hidden = true; }, 2600); } };
+
+    if (cloze) {
+      const a = $("#ans-a"), b = $("#ans-b");
+      a.focus();
+      b.addEventListener("keydown", (e) => { if (e.key === "Enter") send.click(); });
+      send.addEventListener("click", async () => {
+        const va = a.value.trim(), vb = b.value.trim();
+        if (!va) { a.focus(); a.style.borderColor = "var(--ink)"; return; }
+        if (!vb) { b.focus(); b.style.borderColor = "var(--ink)"; return; }
+        const text = `「${va.slice(0, 30)}」取代了「${vb.slice(0, 30)}」`;
+        send.disabled = true; send.textContent = "送出中…";
+        try {
+          await RESP_REF.push({ q: idx, text, name: name() || "", ts: Date.now() });
+          a.value = ""; b.value = ""; a.style.borderColor = ""; b.style.borderColor = "";
+          send.disabled = false; send.textContent = "送出 · Send"; a.focus();
+          showToast();
+        } catch (e) { send.disabled = false; send.textContent = "送出 · Send"; alert("送出失敗，請確認網路後再試一次。"); }
+      });
+      return;
+    }
+
+    const ans = $("#ans"), cc = $("#cc");
     ans.addEventListener("input", () => { cc.textContent = ans.value.length; });
     ans.focus();
     send.addEventListener("click", async () => {
       const text = ans.value.trim();
       if (!text) { ans.focus(); ans.style.borderColor = "var(--ink)"; return; }
-      const name = (ssGet("nick") || "").slice(0, 16);   // 名字沿用填名字頁，作答頁不再詢問
       send.disabled = true; send.textContent = "送出中…";
       try {
-        await RESP_REF.push({ q: idx, text: text.slice(0, 300), name: name || "", ts: Date.now() });
+        await RESP_REF.push({ q: idx, text: text.slice(0, 300), name: name() || "", ts: Date.now() });
         ans.value = ""; cc.textContent = "0";            // 清空續填，同一題可重複送出
         send.disabled = false; send.textContent = "送出 · Send"; ans.focus();
-        if (toast) { toast.hidden = false; clearTimeout(bindForm._t); bindForm._t = setTimeout(() => { if (toast) toast.hidden = true; }, 2600); }
+        showToast();
       } catch (e) { send.disabled = false; send.textContent = "送出 · Send"; alert("送出失敗，請確認網路後再試一次。"); }
     });
   }
@@ -199,9 +239,8 @@
     const changed = (idx !== lastIdxScreen) || (sig !== lastSigScreen);
     if (changed) { lastIdxScreen = idx; lastSigScreen = sig; screenRendered.clear(); buildScreenStage(slide); }
 
-    // 角落 QR：問題頁與內容頁都常駐（方便中途重新加入）；封面與已有大 QR 的頁(qr/填名字)不重複
-    const bigQrSlide = slide && (slide.type === "cover" || slide.type === "qr" || slide.type === "name");
-    $("#s-qrwrap").hidden = !slide || bigQrSlide;
+    // 角落 QR：只在問題頁顯示（方便中途重新加入）；封面/影片/圖片/agents 等非作答頁一律收起
+    $("#s-qrwrap").hidden = !isQuestion(slide);
     // 留言牆只在問題頁顯示
     $("#s-wall").hidden = !isQuestion(slide);
     if (isQuestion(slide)) renderScreenWall();

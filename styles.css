@@ -84,6 +84,8 @@ body {
 .btn.jade:active { box-shadow: 0 1px 0 var(--ink-2), var(--shadow); }
 .btn.ghost { background: var(--card); color: var(--ink); box-shadow: 0 3px 0 var(--line), var(--shadow); }
 .btn.ghost:active { box-shadow: 0 1px 0 var(--line), var(--shadow); }
+.btn.gold { background: var(--gold); color: var(--ink); box-shadow: 0 4px 0 var(--gold-d), var(--shadow); }   /* 填名字頁 Enter：金銅色 */
+.btn.gold:active { box-shadow: 0 1px 0 var(--gold-d), var(--shadow); }
 .btn.sm { font-size: 14px; padding: 9px 14px; }
 .btn.block { display: block; width: 100%; font-size: 20px; padding: 16px; }
 
@@ -318,6 +320,9 @@ body.role-screen { background: #17120D; }
 #view-screen { position: relative; }
 #view-screen .screen-stage { padding-top: 40px; }
 #view-screen .join-chip { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 16px); right: 22px; z-index: 10; box-shadow: 0 10px 28px rgba(0,0,0,.45); }
+/* 問題頁預留右側空間，避免角落 QR 蓋到標題字 */
+#view-screen .screen-stage[data-type="question"] { padding-right: 170px; }
+@media (max-width: 680px){ #view-screen .screen-stage[data-type="question"] { padding-right: 34px; } }
 #view-screen .wall-empty div { color: #D8C9A6 !important; }
 
 /* 投影 stage 撐滿；封面放到最大（滿版、無圓角陰影） */
@@ -366,3 +371,10 @@ body { font-weight: 500; }
 .answer-who { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
 .answer-who b { color: var(--ink); font-weight: 700; }
 .send-toast { margin-top: 12px; text-align: center; font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--ink); background: var(--gold); border-radius: 999px; padding: 10px 14px; box-shadow: var(--shadow); animation: pop .3s cubic-bezier(.2,1.4,.4,1); }
+
+/* 照樣造句：兩格填空，中間「取代了」 */
+.answer-area.cloze .cloze-fields { display: flex; flex-direction: column; gap: 10px; }
+.cloze-in { width: 100%; font-family: var(--font-body); font-weight: 700; font-size: 20px; text-align: center; background: #fff; border: 2px solid var(--line); border-radius: var(--r-s); padding: 15px 14px; outline: none; color: var(--ink); }
+.cloze-in::placeholder { font-weight: 500; color: var(--ink-soft); opacity: .7; }
+.cloze-in:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,32,.14); }
+.cloze-op { text-align: center; font-family: var(--font-cjk); font-weight: 900; font-style: italic; font-size: 22px; color: var(--gold-d); line-height: 1; }
