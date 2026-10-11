@@ -371,7 +371,7 @@ body.role-screen.screen-paper {
 .screen-stage[data-type="cover"] .cover-img { max-width: 100%; max-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); width: auto; height: auto; border-radius: 0; box-shadow: none; }
 
 /* 圖片頁：上下置中、放大；標 full 者滿版撐滿（如三期應運） */
-#view-screen .screen-stage[data-type="image"] { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#view-screen .screen-stage[data-type="image"] { min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .screen-stage[data-type="image"] .slide-media { min-height: 0; }
 .screen-stage[data-type="image"] .media-img { max-height: 86vh; }
 #view-screen .screen-stage[data-type="image"][data-full="1"] { padding: 0; }
@@ -379,7 +379,7 @@ body.role-screen.screen-paper {
 .screen-stage[data-type="image"][data-full="1"] .media-img { max-width: 100%; max-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); border-radius: 0; box-shadow: none; }
 
 /* AI 代理人牆：整頁上下置中 */
-#view-screen .screen-stage[data-type="agents"] { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#view-screen .screen-stage[data-type="agents"] { min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
 /* AI Agents 牆：少量彩色 App 圖示時置中放大 */
 .agents-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch; gap: 48px; max-width: 920px; }
