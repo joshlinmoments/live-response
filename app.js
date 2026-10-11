@@ -352,7 +352,9 @@
       let sub = "";
       if (r.tr.en) sub += `<div class="txt-sub en-sub">${esc(r.tr.en)}</div>`;
       if (r.tr.id) sub += `<div class="txt-sub id-sub">${esc(r.tr.id)}</div>`;
-      return `<div class="txt">${esc(zh)}</div>${sub}`;
+      // 中文放左、英文＋印尼文放右
+      if (sub) return `<div class="wc-cols"><div class="wc-zh"><div class="txt">${esc(zh)}</div></div><div class="wc-other">${sub}</div></div>`;
+      return `<div class="txt">${esc(zh)}</div>`;
     }
     return `<div class="txt">${esc(r.text)}</div><div class="txt-pending">翻譯中… · translating…</div>`;
   }

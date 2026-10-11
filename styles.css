@@ -229,7 +229,7 @@ textarea#ans:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(43,37,
 #view-screen .q-num { font-size:clamp(52px,6.4vw,94px); }
 #view-screen .q-zh { font-size:clamp(40px,5.4vw,78px); }
 #view-screen .q-en { font-size:clamp(19px,2.2vw,32px); }
-#view-screen .wall { padding:12px 34px 48px; columns:360px; }
+#view-screen .wall { padding:12px 34px 48px; columns:540px; }
 #view-screen .wcard .txt { font-size:clamp(19px,1.7vw,26px); }
 
 .idle-stage.big-qr { display:flex; flex-direction:column; align-items:center; gap:10px; padding:5vh 20px; }
@@ -372,11 +372,20 @@ body { font-weight: 500; }
 .name-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(168,128,63,.25); }
 .namecard .hint { color:#E2D3B4; }
 
-/* 投影留言牆：三語自動翻譯（中文為主＋英文/印尼文小字） */
+/* 投影留言牆：三語自動翻譯（中文左、英文/印尼文右） */
 .wcard .wc-body { min-width: 0; }
-.wcard .txt-sub { margin-top: 7px; font-family: var(--font-body); font-weight: 500; font-size: clamp(14px,1.15vw,18px); line-height: 1.4; color: var(--ink-soft); word-break: break-word; }
+.wcard .wc-cols { display: flex; gap: 16px; align-items: flex-start; }
+.wcard .wc-zh { flex: 1 1 54%; min-width: 0; }
+.wcard .wc-other { flex: 1 1 46%; min-width: 0; padding-left: 16px; border-left: 2px solid var(--line); }
+.wcard .txt-sub { font-family: var(--font-body); font-weight: 500; font-size: clamp(14px,1.15vw,18px); line-height: 1.4; color: var(--ink-soft); word-break: break-word; }
+.wcard .wc-other .txt-sub + .txt-sub { margin-top: 8px; }
 .wcard .txt-sub.id-sub { font-style: italic; color: var(--gold-d); }
 .wcard .txt-pending { margin-top: 7px; font-family: var(--font-en); font-style: italic; font-size: 13px; color: var(--gold-d); }
+/* 窄螢幕(手機預覽)：左右欄改回上下疊 */
+@media (max-width: 600px){
+  .wcard .wc-cols { flex-direction: column; gap: 8px; }
+  .wcard .wc-other { padding-left: 0; border-left: none; padding-top: 8px; border-top: 2px solid var(--line); }
+}
 
 /* 填名字頁：整個欄位上下置中（手機） */
 #view-join.name-mode { display: flex; flex-direction: column; justify-content: center; min-height: calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); }
